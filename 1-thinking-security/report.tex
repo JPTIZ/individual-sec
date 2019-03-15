@@ -1,0 +1,309 @@
+%-------------------------------------------------------------------------------
+\documentclass[answers]{exam}
+
+%-------------------------------------------------------------------------------
+% Packages
+\usepackage{amsmath}
+\usepackage[portuguese]{babel}
+\usepackage{capt-of}
+\usepackage{environ}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage{xcolor}
+
+%-------------------------------------------------------------------------------
+% User-commands
+\newcommand{\todo}[1]{{\color{red}{#1}}}
+
+\NewEnviron{superframe}{%
+    \begin{center}
+        \fbox{\setlength{\fboxsep}{1em}\fbox{\parbox{5.5in}{%
+            \BODY{}
+        }}}
+    \end{center}
+}
+
+\NewEnviron{answer}{%
+    \begin{samepage}
+        \begin{solution}
+            \BODY{}
+        \end{solution}
+    \end{samepage}
+}
+
+\newmintedfile[textfile]{text}{autogobble, breaklines}
+
+\newcommand{\result}[2]{\textfile[firstline=#1, lastline=#2]{thesampleoutput}}
+\newcommand{\ontology}[2]{\textfile[firstline=#1, lastline=#2]{lang-ontology.owl}}
+
+\newcounter{equationset}
+\newdimen\captionlength
+\newcommand{\equationset}[1]{
+    \refstepcounter{equationset}
+    \setlength{\captionlength}{\widthof{#1}}
+    \addtolength{\captionlength}{\widthof{Equação~\theequationset: }}
+    \ifthenelse{\lengthtest{\captionlength < \linewidth}}{%
+        \begin{center}
+            Equação~\theequationset: #1
+        \end{center}
+    }{%
+        \begin{flushleft}
+            Equação~\theequationset: #1 %
+        \end{flushleft}
+    }
+}
+
+% PT-BR for exam
+\vqword{Questão:}
+\renewcommand{\solutiontitle}{\noindent\textbf{Resposta:}\par\noindent}
+
+\unframedsolutions{}
+
+%-------------------------------------------------------------------------------
+% Project configs
+\title{Relatório de I.A.: OWL, Parte 1}
+\author{Cauê Baasch de Souza \\
+        João Paulo Taylor Ienczak Zanette}
+\date{\today}
+
+%-------------------------------------------------------------------------------
+\begin{document}
+    \maketitle{}
+
+    \section{Geral}
+
+    \begin{superframe}
+        \begin{itemize}
+            \item Será necessário entregar com a parte 1 e uma breve descrição
+                do domínio escolhido, bem como das principais classes e
+                propriedades definidas, ontologias importadas (quando
+                aplicável), e testes realizados com os indivíduos (o que foi
+                inferido a partir da terminologia);
+
+            \item Além disso, o arquivo RDF/OWL com o modelo conceitual.
+        \end{itemize}
+    \end{superframe}
+
+    \section{Decisões do trabalho}
+
+    \subsection{Domínio escolhido}
+
+    Linguagens, suas implementações e programas descritos nelas.
+
+    \subsection{Principais Classes:}
+
+    \begin{itemize}
+        \item \textbf{Language:} Representa linguagens de programação (e.g.
+            Python, Ruby, C\ldots);
+        \item \textbf{Implementation:} Representa uma implementação de uma
+            linguagem de programação. Por exemplo: CPython, Pypy e MicroPython
+            são implementações de Python;
+        \item \textbf{Compiler:} Representa um compilador, podendo incluir
+            JITs. Identifica-se um compilador como AOT (\textit{Ahead of Time})
+            pela propriedade \texttt{aot}. A negativa dessa propriedade
+            identifica o compilador como JIT\@.
+        \item \textbf{Interpreter:} Representa um interpretador de uma
+            linguagem.
+    \end{itemize}
+
+    \section{Parte 1: Pesquisa Teórica}
+
+    \begin{superframe}
+        \textbf{Observações:}
+
+        \begin{itemize}
+            \item O resultado da parte 1 deve ser um pequeno texto
+                explicando o \textbf{entendimento} de vocês sobre os
+                tópicos sugeridos. Portanto, o texto deve ter \textbf{no
+                máximo} 2 páginas;
+            \item Citar todas as fontes utilizadas para a pesquisa
+                (Wikipédia também serve).
+        \end{itemize}
+    \end{superframe}
+
+    \begin{questions}
+        \question{}
+        Em OWL 2, qual é a diferença entre os axiomas de class
+        \texttt{subClassOf} e \texttt{equivalentTo}?
+        \begin{itemize}
+            \item Apresente as definições de cada um e exemplos de uso dos
+                dois, dentro do domínio escolhido pela dupla para a parte
+                prática.
+            \item Descreva especialmente a diferença dos axiomas de classe
+                quanto às inferências possíveis, ou seja, teste os exemplos
+                \underline{no seu domínio} e descreva as inferências.
+        \end{itemize}
+
+        \clearpage{}
+
+        \begin{answer}
+            \textbf{\texttt{subClassOf}:}
+
+            Dadas duas classes A e B e individuos que pertençam a apenas uma
+            delas. Ao se fazer \texttt{subClassOf(:A :B)}, se está indicando
+            que todo elemento pertencente a A também pertence a B, \textbf{mas
+            o contrário não necessariamente}, ou seja: $A \subseteq B$.  Sendo
+            assim, para $\{1, 2, 3\} \in A$ e $\{4, 5, 6\} \in B$,
+            \texttt{subClassOf(:A :B)} fará com que os indivíduos que pertencem
+            a A e B sejam, respectivamente, $\{1, 2, 3\}$ e $\{1, 2, 3, 4, 5,
+            6\}$.
+
+            \textbf{Exemplo:}
+
+            No domínio escolhido para a parte prática, foi definido que toda
+            \textbf{Máquina Virtual} (VM) é também um \textbf{Programa}. Porém,
+            faz sentido que nem todo programa seja uma VM\@: nesse caso, não é
+            possível inferir, por exemplo, que o GCC seja uma VM mesmo que seja
+            um programa.  Porém, é possível inferir que o GCC é um programa
+            simplesmente por defini-lo como um compilador, afinal todo
+            compilador é também um programa.
+
+            Na prática, tem-se as seguintes definições de classes em OWL2:
+
+            \ontology{23}{25}
+            \ontology{35}{37}
+
+            E a instância ``JVM'' foi definida da forma:
+
+            \ontology{105}{107}
+
+            Partindo dessa instância (e de outras VMs), é possível ver que, ao
+            carregá-las para o leitor de OWL2, elas são atribuídas à classe
+            \texttt{Program}:
+
+            \result{15}{17}
+
+            É perceptível que, apesar de não declaradas explicitamente como
+            programas, as instâncias foram inferidas como sendo da classe
+            \texttt{Program}.
+
+            \textbf{\texttt{equivalentTo}:}
+
+            Dadas duas classes A e B e indivíduos que pertençam a apenas uma
+            delas. Ao se fazer \texttt{equivalentTo}, se está indicando que
+            todo elemento pertencente a A também pertence a B, \textbf{e
+            vice-versa}.  Sendo assim, para $\{1, 2, 3\} \in A$ e $\{4, 5, 6\}
+            \in B$, \texttt{equivalentTo(:A :B)} fará com que tanto A quanto B
+            sejam compostas pelos indivíduos $\{1, 2, 3, 4, 5, 6\}$.
+
+            \textbf{Exemplo:}
+
+            Foi definido que existem \textbf{Linguagens} e \textbf{Dialetos}. É
+            fato que todo dialeto também é uma linguagem de programação, visto
+            que tem um compilador próprio, não necessariamente um programa
+            escrito em um dialeto compila na linguagem na qual foi baseado,
+            além de ter suas próprias especificidades. Da mesma forma, a
+            descrição de uma linguagem de programação descreve também um
+            dialeto (como uma espécie de ``dialeto-pai''). Porém, ainda assim,
+            nem um nem outro são o mesmo conceito: dialetos são variações de
+            uma linguagem, enquanto que linguagens são linguagens como ampla
+            definição.  Sendo assim, qualquer elemento descrito como linguagem
+            será inferido como dialeto e vice-versa.
+        \end{answer}
+
+        \question{}
+        Compare a Lógica Descritiva que fundamenta a OWL 2 (na sua variação
+        mais expressiva) com lógica de 1ª ordem. Apresente um exemplo do que é
+        possível expressar com lógica de 1ª ordem que não conseguimos com
+        lógica descritiva.
+
+        \begin{answer}
+            Na prática, DLs (\textit{Descriptive Logics}) geralmente podem ser
+            vistas como subconjuntos \textbf{decidíveis} de FOL
+            (\textit{First-Order Logic})~\cite{tsarkov:2003}. Isso significa
+            que, para algumas DLs, é verdadeiro que um problema $x$ pertencente
+            ao conjunto de problemas descritíveis com tal DL é também
+            descritível com FOL, porém o contrário não se mantém verdade, dado
+            que FOL descreve também problemas indecidíveis.
+
+            Da parte de OWL 2, esta é uma DL cuja expressividade é semelhante à
+            de $\mathcal{SROIQ^{(D)}}$ (nomenclatura que se dá devido às
+            descrições de DL fazem parte de OWL 2 --- e.g. $\mathcal{I}$ indica
+            que OWL 2 inclui propriedades de inversão; e $\mathcal{O}$ indica
+            que inclui nominais tais como \texttt{owl:hasValue}, que impõem
+            restrições aos valores dos
+            objetos~\cite{wikipedia:description-logic}).
+            $\mathcal{SROIQ^{(D)}}$ permite relações transitivas (como
+            \texttt{subClassOf}), cujo equivalente em FOL implica na
+            necessidade de 3 variáveis para resolução (conforme demonstrado na
+            Equação~\ref{transitive-fol}), o que é demonstrado ser
+            indecidível~\cite{tsarkov:2003}, e consequência significaria que a
+            DL de OWL 2 permite descrever problemas indecidíveis.
+
+            \begin{align}
+                \label{transitive-fol}
+                \forall{x}\forall{y}\forall{z}(\phi_{T}(x, y) \land \phi_{T}(y, z) \rightarrow \phi_{T}(x, z))
+            \end{align}
+            \equationset{%
+                Relação de transitividade para uma determinada relação T\@.
+                $\phi{T}$ mapeia um conceito T descrito em DL a um predicado
+                unário.
+            }
+
+            Encontrar um exemplo de assertiva expressável em FOL porém não em
+            DL foi um processo complicado, visto que voda documentação descreve
+            que DLs são fragmentos de FOL, mas nenhuma indica em que ponto elas
+            se dividem. Alguns pontos que poderiam ajudar a perceber esse ponto
+            de divisão são, por exemplo, a menção a uma categoria de DLs
+            chamada de \textit{Modal Description Logics}~\cite{frank:2001},
+            composta por DLs que incluem operadores modais, tornando possível
+            representar expressões como a~\ref{modal-customer} (pelo operador
+            modal ``eventually'').
+
+            \begin{align}
+                \label{modal-customer}
+                \text{Potential\_customer} &= \langle \text{eventually} \rangle \text{Customer}
+            \end{align}
+            \equationset{%
+                Exemplo de uso de um operador modal (\textit{``eventually''}).
+                A expressão indica que um cliente em potencial é aquele que
+                eventualmente será um cliente.
+            }
+
+            Seguindo a discussão em~\cite{emails} foi encontrada uma breve
+            explicação a respeito, o que corrobora o que foi dito
+            anteriormente: $\mathcal{ALC}$, por exemplo, é restrito a operações
+            de apenas duas variáveis, restrição que não existem em FOL\@.
+            Porém, isso parece altamente dependente de qual fragmento a uma DL
+            se trata, afinal a seção 4.2 de ~\cite{handbook} dá a entender que
+            DLs que permitem o fecho transitivo de regras englobam problemas
+            não descritíveis em FOL por conta do Teorema da Compacidade.
+        \end{answer}
+    \end{questions}
+
+    \clearpage{}
+
+    \section{Parte 2: Prática}
+    \begin{questions}
+        \question{}
+        Desenvolver um modelo conceitual (ontologia de domínio) utilizando
+        OWL\@.
+
+        Construam uma representação de domínio (utilizando \emph{classes},
+        \emph{relações} e \emph{indivíduos}) de alguma área de interesse
+        (pesquisa em computação, temas dos TCCs, filmes, esportes, músicas,
+        hobbies, etc.).
+
+        \begin{superframe}
+            \begin{itemize}
+                \item A avaliação considera principalmente a utilização dos
+                    axiomas de propriedades e de classes. Quanto mais
+                    restrições forem modeladas, melhor;
+
+                \item Dentre as restrições, utilize no mínimo alguma de
+                    cardinalidade qualificada (\texttt{min}, \texttt{max},
+                    \ldots) em alguma propriedade de objeto (ver na
+                    documentação da OWL, disponível no Moodle);
+
+                \item Outro aspecto importante é a definição dos membros das
+                    classes. Utilizem suas definições para testar a definição
+                    dos axiomas e também para testar o funcionamento do
+                    mecanismo de inferência da linguagem.
+            \end{itemize}
+        \end{superframe}
+    \end{questions}
+
+    \bibliographystyle{unsrt}
+    \bibliography{refs}
+    \nocite{*}
+\end{document}
