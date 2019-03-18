@@ -1,15 +1,21 @@
 %-------------------------------------------------------------------------------
-\documentclass[answers]{exam}
+\documentclass{article}
 
 %-------------------------------------------------------------------------------
 % Packages
+
+% Translation
+\usepackage[brazilian]{babel}
+
+% General
 \usepackage{amsmath}
-\usepackage[portuguese]{babel}
-\usepackage{capt-of}
 \usepackage{environ}
-\usepackage{hyperref}
-\usepackage{minted}
+\usepackage[margin=1in]{geometry}
 \usepackage{xcolor}
+
+% Other
+\usepackage{hyperref}
+\usepackage[brazilian]{cleveref} % Must be after hyperref
 
 %-------------------------------------------------------------------------------
 % User-commands
@@ -31,279 +37,172 @@
     \end{samepage}
 }
 
-\newmintedfile[textfile]{text}{autogobble, breaklines}
-
-\newcommand{\result}[2]{\textfile[firstline=#1, lastline=#2]{thesampleoutput}}
-\newcommand{\ontology}[2]{\textfile[firstline=#1, lastline=#2]{lang-ontology.owl}}
-
-\newcounter{equationset}
-\newdimen\captionlength
-\newcommand{\equationset}[1]{
-    \refstepcounter{equationset}
-    \setlength{\captionlength}{\widthof{#1}}
-    \addtolength{\captionlength}{\widthof{Equação~\theequationset: }}
-    \ifthenelse{\lengthtest{\captionlength < \linewidth}}{%
-        \begin{center}
-            Equação~\theequationset: #1
-        \end{center}
-    }{%
-        \begin{flushleft}
-            Equação~\theequationset: #1 %
-        \end{flushleft}
-    }
-}
-
-% PT-BR for exam
-\vqword{Questão:}
-\renewcommand{\solutiontitle}{\noindent\textbf{Resposta:}\par\noindent}
-
-\unframedsolutions{}
-
 %-------------------------------------------------------------------------------
 % Project configs
-\title{Relatório de I.A.: OWL, Parte 1}
-\author{Cauê Baasch de Souza \\
-        João Paulo Taylor Ienczak Zanette}
+\title{Segurança em Computação \\ Trabalho Individual I}
+\author{João Paulo Taylor Ienczak Zanette}
 \date{\today}
 
 %-------------------------------------------------------------------------------
 \begin{document}
     \maketitle{}
 
-    \section{Geral}
-
     \begin{superframe}
-        \begin{itemize}
-            \item Será necessário entregar com a parte 1 e uma breve descrição
-                do domínio escolhido, bem como das principais classes e
-                propriedades definidas, ontologias importadas (quando
-                aplicável), e testes realizados com os indivíduos (o que foi
-                inferido a partir da terminologia);
+        O objetivo deste trabalho é que você exercite a forma de pensar de um
+        profissional de segurança em computação. Por isso voce deve produzir um
+        relatório analisando algum sistema que você usa corriqueiramente quanto
+        a sua segurança, lembre de avaliar pelo menos:
 
-            \item Além disso, o arquivo RDF/OWL com o modelo conceitual.
+        \begin{itemize}
+            \item Ativos?
+            \item Adversários?
+            \item Gerenciamento de Risco?
+            \item Contra medidas?
+            \item Custo/Beneficio?
         \end{itemize}
+
+        A avaliação deste trabalho vai exigir que você escolha um sistema com
+        um grau de complexidade pelo menos médio. Sistemas de baixa
+        complexidade implicam em nota máxima de 60\%. Cada item avaliado
+        corresponde a 20\% da nota final do trabalho. A avaliação de cada item
+        requer uma discussão embasada nos fundamentos discutidos em aula e um
+        grau de profundidade médio (pelo mesno 3 parágrafos por item avaliado),
+        exigindo que o alunos discorra coerentemente sobre o tópico.
+
+        A entrega deve ser feita obrigatoriamente em PDF (o sistema não vai
+        deixar entregar de outra forma). Atrasos sofrerão punição de 50\% da
+        nota independente da data de entrega.
     \end{superframe}
 
-    \section{Decisões do trabalho}
+    \section{Sobre o Sistema Escolhido}
 
-    \subsection{Domínio escolhido}
+    O sistema escolhido para este trabalho foi o \textbf{Sistema de Controle
+    Acadêmico da Graduação} (CAGR), visto que, enquanto sistema da graduação,
+    há bastante uso especialmente em períodos de matrícula, já que é necessário
+    que esta seja feita nele, e ele é quem apresenta quais matérias o aluno
+    conseguiu ou não, a grade de horários com salas em cada dia, professores,
+    turmas e suas vagas, dentre outras informações de uso comum dos
+    universitários da UFSC\@. Esta análise será extendida também ao
+    \textbf{Fórum da Graduação}, um subsistema do CAGR para discussão entre
+    alunos, com tópicos separados em fóruns de disciplinas ou do curso.
 
-    Linguagens, suas implementações e programas descritos nelas.
+    Toda a análise neste relatório será feita \textbf{do ponto de vista do
+    aluno}.
 
-    \subsection{Principais Classes:}
+    \section{Análise}
+
+    \subsection{Ativos}
+
+    \subsubsection{Geral}
+
+    Por se tratar do sistema oficial da graduação, há informações bastante
+    importantes (institucionalmente) de cada aluno. Sumarizando a parte
+    principal do CAGR\@:
 
     \begin{itemize}
-        \item \textbf{Language:} Representa linguagens de programação (e.g.
-            Python, Ruby, C\ldots);
-        \item \textbf{Implementation:} Representa uma implementação de uma
-            linguagem de programação. Por exemplo: CPython, Pypy e MicroPython
-            são implementações de Python;
-        \item \textbf{Compiler:} Representa um compilador, podendo incluir
-            JITs. Identifica-se um compilador como AOT (\textit{Ahead of Time})
-            pela propriedade \texttt{aot}. A negativa dessa propriedade
-            identifica o compilador como JIT\@.
-        \item \textbf{Interpreter:} Representa um interpretador de uma
-            linguagem.
+        \item Dados cadastrais (detalhado
+            nas~\Cref{sub:data-inst,sub:data-pers});
+        \item Pedidos de matrícula (inclusões, exclusões e alterações);
+        \item E-mail e senha\footnote{Não são institucionais, mas são
+            essenciais para ter acesso para ler e alterar todas as outras
+            informações.}
     \end{itemize}
 
-    \section{Parte 1: Pesquisa Teórica}
+    Dos pedidos de matrícula, é importante que o aluno não tenha sua matricula
+    fora da regularidade por conta de alterações indesejadas nos pedidos de
+    suas disciplinas. Além ainda da regularidade, vale apontar o transtorno de
+    ser redirecionado para turmas e disciplinas que não compactuam com os
+    objetivos do aluno, incluindo casos como estar sobrecarregado de
+    disciplinas contra a própria vontade. Desfazer/corrigir essas mudanças
+    demandaria ao aluno tratar diretamente com autoridades como o Coordenador
+    de Curso e principalmente da boa vontade de professores entenderem a
+    situação e poderem tomar medidas como aumento do número de vagas em suas
+    turmas para que o aluno pudesse cursar as disciplinas que havia
+    voluntariamente pedido. Vale apontar que há casos em que o professor não
+    teria como alimentar a demanda de vagas, uma vez que necessita de espaço e
+    tempo em aula para coordenar a turma. Ou seja, a matrícula de um aluno é um
+    ativo de extrema responsabilidade de ser protegido contra alterações
+    indesejadas.
 
-    \begin{superframe}
-        \textbf{Observações:}
+    Quanto ao e-mail e senha, não é necessário elaborar muito sobre sua
+    necessidade de proteção: o não recebimento de e-mails (por conta de um
+    invasor configurar um e-mail que não seja algum de acesso do aluno) pode
+    levar o aluno a perder informações importantíssimas que prejudicariam sua
+    vida acadêmica (perda de provas por alterações de data, ou entregas de
+    trabalho, etc.). A senha seria ainda mais catastrófica, uma vez que um
+    atacante tendo acesso a ela é possível fazer todas as alterações
+    indesejadas citadas até o momento, e ainda configurar uma senha que não é a
+    do aluno (fazendo com que este tenha que resolver o caso com a instituição,
+    gerando situações inconvenientes). Há de lembrar ainda a possibilidade da
+    senha configurada ser a mesma de outras contas do aluno, outras ainda mais
+    pessoais (plataformas de \textit{chat} instantâneo, repositório de arquivos
+    na nuvem --- e.g. Google Drive ---, etc.).
 
-        \begin{itemize}
-            \item O resultado da parte 1 deve ser um pequeno texto
-                explicando o \textbf{entendimento} de vocês sobre os
-                tópicos sugeridos. Portanto, o texto deve ter \textbf{no
-                máximo} 2 páginas;
-            \item Citar todas as fontes utilizadas para a pesquisa
-                (Wikipédia também serve).
-        \end{itemize}
-    \end{superframe}
+    \subsubsection{Dados cadastrais institucionais~\label{sub:data-inst}}
 
-    \begin{questions}
-        \question{}
-        Em OWL 2, qual é a diferença entre os axiomas de class
-        \texttt{subClassOf} e \texttt{equivalentTo}?
-        \begin{itemize}
-            \item Apresente as definições de cada um e exemplos de uso dos
-                dois, dentro do domínio escolhido pela dupla para a parte
-                prática.
-            \item Descreva especialmente a diferença dos axiomas de classe
-                quanto às inferências possíveis, ou seja, teste os exemplos
-                \underline{no seu domínio} e descreva as inferências.
-        \end{itemize}
+    \todo{TODO}
 
-        \clearpage{}
+    \subsubsection{Dados cadastrais pessoais~\label{sub:data-pers}}
 
-        \begin{answer}
-            \textbf{\texttt{subClassOf}:}
+    Dados pessoais incluem:
 
-            Dadas duas classes A e B e individuos que pertençam a apenas uma
-            delas. Ao se fazer \texttt{subClassOf(:A :B)}, se está indicando
-            que todo elemento pertencente a A também pertence a B, \textbf{mas
-            o contrário não necessariamente}, ou seja: $A \subseteq B$.  Sendo
-            assim, para $\{1, 2, 3\} \in A$ e $\{4, 5, 6\} \in B$,
-            \texttt{subClassOf(:A :B)} fará com que os indivíduos que pertencem
-            a A e B sejam, respectivamente, $\{1, 2, 3\}$ e $\{1, 2, 3, 4, 5,
-            6\}$.
-
-            \textbf{Exemplo:}
-
-            No domínio escolhido para a parte prática, foi definido que toda
-            \textbf{Máquina Virtual} (VM) é também um \textbf{Programa}. Porém,
-            faz sentido que nem todo programa seja uma VM\@: nesse caso, não é
-            possível inferir, por exemplo, que o GCC seja uma VM mesmo que seja
-            um programa.  Porém, é possível inferir que o GCC é um programa
-            simplesmente por defini-lo como um compilador, afinal todo
-            compilador é também um programa.
-
-            Na prática, tem-se as seguintes definições de classes em OWL2:
-
-            \ontology{23}{25}
-            \ontology{35}{37}
-
-            E a instância ``JVM'' foi definida da forma:
-
-            \ontology{105}{107}
-
-            Partindo dessa instância (e de outras VMs), é possível ver que, ao
-            carregá-las para o leitor de OWL2, elas são atribuídas à classe
-            \texttt{Program}:
-
-            \result{15}{17}
-
-            É perceptível que, apesar de não declaradas explicitamente como
-            programas, as instâncias foram inferidas como sendo da classe
-            \texttt{Program}.
-
-            \textbf{\texttt{equivalentTo}:}
-
-            Dadas duas classes A e B e indivíduos que pertençam a apenas uma
-            delas. Ao se fazer \texttt{equivalentTo}, se está indicando que
-            todo elemento pertencente a A também pertence a B, \textbf{e
-            vice-versa}.  Sendo assim, para $\{1, 2, 3\} \in A$ e $\{4, 5, 6\}
-            \in B$, \texttt{equivalentTo(:A :B)} fará com que tanto A quanto B
-            sejam compostas pelos indivíduos $\{1, 2, 3, 4, 5, 6\}$.
-
-            \textbf{Exemplo:}
-
-            Foi definido que existem \textbf{Linguagens} e \textbf{Dialetos}. É
-            fato que todo dialeto também é uma linguagem de programação, visto
-            que tem um compilador próprio, não necessariamente um programa
-            escrito em um dialeto compila na linguagem na qual foi baseado,
-            além de ter suas próprias especificidades. Da mesma forma, a
-            descrição de uma linguagem de programação descreve também um
-            dialeto (como uma espécie de ``dialeto-pai''). Porém, ainda assim,
-            nem um nem outro são o mesmo conceito: dialetos são variações de
-            uma linguagem, enquanto que linguagens são linguagens como ampla
-            definição.  Sendo assim, qualquer elemento descrito como linguagem
-            será inferido como dialeto e vice-versa.
-        \end{answer}
-
-        \question{}
-        Compare a Lógica Descritiva que fundamenta a OWL 2 (na sua variação
-        mais expressiva) com lógica de 1ª ordem. Apresente um exemplo do que é
-        possível expressar com lógica de 1ª ordem que não conseguimos com
-        lógica descritiva.
-
-        \begin{answer}
-            Na prática, DLs (\textit{Descriptive Logics}) geralmente podem ser
-            vistas como subconjuntos \textbf{decidíveis} de FOL
-            (\textit{First-Order Logic})~\cite{tsarkov:2003}. Isso significa
-            que, para algumas DLs, é verdadeiro que um problema $x$ pertencente
-            ao conjunto de problemas descritíveis com tal DL é também
-            descritível com FOL, porém o contrário não se mantém verdade, dado
-            que FOL descreve também problemas indecidíveis.
-
-            Da parte de OWL 2, esta é uma DL cuja expressividade é semelhante à
-            de $\mathcal{SROIQ^{(D)}}$ (nomenclatura que se dá devido às
-            descrições de DL fazem parte de OWL 2 --- e.g. $\mathcal{I}$ indica
-            que OWL 2 inclui propriedades de inversão; e $\mathcal{O}$ indica
-            que inclui nominais tais como \texttt{owl:hasValue}, que impõem
-            restrições aos valores dos
-            objetos~\cite{wikipedia:description-logic}).
-            $\mathcal{SROIQ^{(D)}}$ permite relações transitivas (como
-            \texttt{subClassOf}), cujo equivalente em FOL implica na
-            necessidade de 3 variáveis para resolução (conforme demonstrado na
-            Equação~\ref{transitive-fol}), o que é demonstrado ser
-            indecidível~\cite{tsarkov:2003}, e consequência significaria que a
-            DL de OWL 2 permite descrever problemas indecidíveis.
-
-            \begin{align}
-                \label{transitive-fol}
-                \forall{x}\forall{y}\forall{z}(\phi_{T}(x, y) \land \phi_{T}(y, z) \rightarrow \phi_{T}(x, z))
-            \end{align}
-            \equationset{%
-                Relação de transitividade para uma determinada relação T\@.
-                $\phi{T}$ mapeia um conceito T descrito em DL a um predicado
-                unário.
-            }
-
-            Encontrar um exemplo de assertiva expressável em FOL porém não em
-            DL foi um processo complicado, visto que voda documentação descreve
-            que DLs são fragmentos de FOL, mas nenhuma indica em que ponto elas
-            se dividem. Alguns pontos que poderiam ajudar a perceber esse ponto
-            de divisão são, por exemplo, a menção a uma categoria de DLs
-            chamada de \textit{Modal Description Logics}~\cite{frank:2001},
-            composta por DLs que incluem operadores modais, tornando possível
-            representar expressões como a~\ref{modal-customer} (pelo operador
-            modal ``eventually'').
-
-            \begin{align}
-                \label{modal-customer}
-                \text{Potential\_customer} &= \langle \text{eventually} \rangle \text{Customer}
-            \end{align}
-            \equationset{%
-                Exemplo de uso de um operador modal (\textit{``eventually''}).
-                A expressão indica que um cliente em potencial é aquele que
-                eventualmente será um cliente.
-            }
-
-            Seguindo a discussão em~\cite{emails} foi encontrada uma breve
-            explicação a respeito, o que corrobora o que foi dito
-            anteriormente: $\mathcal{ALC}$, por exemplo, é restrito a operações
-            de apenas duas variáveis, restrição que não existem em FOL\@.
-            Porém, isso parece altamente dependente de qual fragmento a uma DL
-            se trata, afinal a seção 4.2 de ~\cite{handbook} dá a entender que
-            DLs que permitem o fecho transitivo de regras englobam problemas
-            não descritíveis em FOL por conta do Teorema da Compacidade.
-        \end{answer}
-    \end{questions}
-
-    \clearpage{}
-
-    \section{Parte 2: Prática}
-    \begin{questions}
-        \question{}
-        Desenvolver um modelo conceitual (ontologia de domínio) utilizando
-        OWL\@.
-
-        Construam uma representação de domínio (utilizando \emph{classes},
-        \emph{relações} e \emph{indivíduos}) de alguma área de interesse
-        (pesquisa em computação, temas dos TCCs, filmes, esportes, músicas,
-        hobbies, etc.).
-
-        \begin{superframe}
+    \begin{itemize}
+        \item CPF e RG\@;
+        \item Tipo sanguíneo;
+        \item Cidade natural;
+        \item Nome dos pais;
+        \item Procedência escolar:
             \begin{itemize}
-                \item A avaliação considera principalmente a utilização dos
-                    axiomas de propriedades e de classes. Quanto mais
-                    restrições forem modeladas, melhor;
-
-                \item Dentre as restrições, utilize no mínimo alguma de
-                    cardinalidade qualificada (\texttt{min}, \texttt{max},
-                    \ldots) em alguma propriedade de objeto (ver na
-                    documentação da OWL, disponível no Moodle);
-
-                \item Outro aspecto importante é a definição dos membros das
-                    classes. Utilizem suas definições para testar a definição
-                    dos axiomas e também para testar o funcionamento do
-                    mecanismo de inferência da linguagem.
+                \item Ano de conclusão;
+                \item Escola;
+                \item Curso (quando há técnico integrado, por exemplo);
+                \item Cidade em que cursou.
             \end{itemize}
-        \end{superframe}
-    \end{questions}
+        \item
+    \end{itemize}
 
-    \bibliographystyle{unsrt}
-    \bibliography{refs}
-    \nocite{*}
+    \subsection{Adversários}
+
+    Os interessados nos ativos do CAGR podem envolver:
+
+    \begin{itemize}
+        \item Inimigos pessoais do aluno que estariam interessados em alguma
+            forma de sabotagem a ele;
+        \item Interessados em roubo de informações (para marketing direcionado,
+            uso ilícito de informações pessoais, chantagem, \ldots);
+        \item \todo{What else?}
+    \end{itemize}
+
+    \subsection{Gerenciamento de Risco}
+
+    \todo{Ver sobre segurança do vBulletin}
+
+    \subsection{Contra medidas}
+
+    \todo{Ver se as contra-medidas são para quando já aconteceu o ataque ou se
+    são medidas preventivas}.
+
+    \subsection{Custo/Beneficio}
+
+    Considerando que o CAGR é um sistema web, o custo de se realizar um ataque
+    é potencialmente baixo (desconsiderando possíveis consequências). Por
+    exemplo, um \textit{SQL Injection} teria apenas o custo de conhecer a
+    estrutura interna dos bancos de dados do sistema e achar qual campo não é
+    sanitizado.
+
+    Quanto ao balanceamento custo/benefício, o CAGR é um sistema direcionado à
+    instituição UFSC, e portanto \emph{potencialmente} não tem \textit{mirrors}
+    espalhados pelo país. Logo, o custo de se realizar um ataque é compensado
+    pelo ganho de se ter acesso à única fonte daquelas informações (salvo
+    \textit{backups}). Isso significa tanto no fato de que obstrução de
+    informações tem maior impacto quanto no de que, tendo acesso a uma
+    informação, potencialmente se tem acesso a todas as outras.
+
+    Há um ponto a ser considerado, porém: por se tratar de uma instituição
+    federal, se o atacante for identificado, as consequências legais podem ser
+    maiores.
+
+    \section{Conclusões}
+
+    \todo{TODO}
 \end{document}
