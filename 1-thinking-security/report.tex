@@ -39,7 +39,10 @@
 
 %-------------------------------------------------------------------------------
 % Project configs
-\title{Segurança em Computação \\ Trabalho Individual I}
+\title{
+    Segurança em Computação \\
+    Trabalho Individual I
+}
 \author{João Paulo Taylor Ienczak Zanette}
 \date{\today}
 
@@ -66,7 +69,7 @@
         complexidade implicam em nota máxima de 60\%. Cada item avaliado
         corresponde a 20\% da nota final do trabalho. A avaliação de cada item
         requer uma discussão embasada nos fundamentos discutidos em aula e um
-        grau de profundidade médio (pelo mesno 3 parágrafos por item avaliado),
+        grau de profundidade médio (pelo menos 3 parágrafos por item avaliado),
         exigindo que o alunos discorra coerentemente sobre o tópico.
 
         A entrega deve ser feita obrigatoriamente em PDF (o sistema não vai
@@ -82,7 +85,7 @@
     que esta seja feita nele, e ele é quem apresenta quais matérias o aluno
     conseguiu ou não, a grade de horários com salas em cada dia, professores,
     turmas e suas vagas, dentre outras informações de uso comum dos
-    universitários da UFSC\@. Esta análise será extendida também ao
+    universitários da UFSC\@. Esta análise será estendida também ao
     \textbf{Fórum da Graduação}, um subsistema do CAGR para discussão entre
     alunos, com tópicos separados em fóruns de disciplinas ou do curso.
 
@@ -96,7 +99,9 @@
     \subsubsection{Geral}
 
     Por se tratar do sistema oficial da graduação, há informações bastante
-    importantes (institucionalmente) de cada aluno. Sumarizando a parte
+    importantes (institucionalmente) de cada aluno. Nem todas elas, porém, tem
+    um valor monetário direto. Para boa parte delas, o uso indevido acarreta em
+    problemas administrativos e transtornos para os alunos. Sumarizando a parte
     principal do CAGR\@:
 
     \begin{itemize}
@@ -120,9 +125,8 @@
     turmas para que o aluno pudesse cursar as disciplinas que havia
     voluntariamente pedido. Vale apontar que há casos em que o professor não
     teria como alimentar a demanda de vagas, uma vez que necessita de espaço e
-    tempo em aula para coordenar a turma. Ou seja, a matrícula de um aluno é um
-    ativo de extrema responsabilidade de ser protegido contra alterações
-    indesejadas.
+    tempo em aula para coordenar a turma. Ou seja, o pedido de matrícula de um
+    aluno deve ser protegido.
 
     Quanto ao e-mail e senha, não é necessário elaborar muito sobre sua
     necessidade de proteção: o não recebimento de e-mails (por conta de um
@@ -138,9 +142,20 @@
     pessoais (plataformas de \textit{chat} instantâneo, repositório de arquivos
     na nuvem --- e.g. Google Drive ---, etc.).
 
+    Vale lembrar que, se noticiada publicamente, uma invasão dessas mancharia a
+    visão do público sobre a instituição, ainda mais sendo uma instituição
+    pública em um país em que é comum a descrença quanto a recursos
+    relacionados ao governo.
+
     \subsubsection{Dados cadastrais institucionais~\label{sub:data-inst}}
 
-    \todo{TODO}
+    Dados institucionais incluem:
+
+    \begin{itemize}
+        \item E-mail institucional;
+        \item Currículo do aluno (notas e frequência nas disciplinas em cada
+            semestre).
+    \end{itemize}
 
     \subsubsection{Dados cadastrais pessoais~\label{sub:data-pers}}
 
@@ -158,35 +173,37 @@
                 \item Curso (quando há técnico integrado, por exemplo);
                 \item Cidade em que cursou.
             \end{itemize}
-        \item
     \end{itemize}
 
     \subsection{Adversários}
 
-    Os interessados nos ativos do CAGR podem envolver:
+    Um dos interessados nos dados guardados no CAGR pode ser um inimigo pessoal
+    de um aluno. Tendo acesso aos dados, pode acontecer alguma forma de
+    sabotagem ou humilhação pública. Por exemplo, no semestre 2015.2 do curso
+    de Ciência da Computação, alguém obteve acesso ao CAGR de um aluno sem o
+    consentimento dele (que possivelmente esqueceu algum computador da
+    instituição logado) e postou no fórum da graduação (em que os professores
+    possuem acesso e potencialmente recebem e-mail do que é postado nele)
+    intitulado ``Trote Opressor e Ofensivo'', que fazia uma falsa denúncia de
+    homofobia e bullying no nome do tal aluno. Uma postagem dessas pode por em
+    jogo, além da imagem dos veteranos do curso, futuros eventos de recepção
+    para calouros.
 
-    \begin{itemize}
-        \item Inimigos pessoais do aluno que estariam interessados em alguma
-            forma de sabotagem a ele;
-        \item Interessados em roubo de informações (para marketing direcionado,
-            uso ilícito de informações pessoais, chantagem, \ldots);
-        \item \todo{What else?}
-    \end{itemize}
+    Atualmente também são valiosas informações para diferentes empresas e
+    instituições. Pode ser considerado um adversário alguém interessado em
+    roubo de informações seja para vender ou para uso direto. São informações
+    importantes para quem busca contratar recém-formados ou graduandos, por
+    exemplo.
+
+    Outros adversários podem envolver tanto quem queira sabotar resultados de
+    processos seletivos (por exemplo, para pós-graduação, alterando o histórico
+    escolar de algum aluno) quanto \todo{quem mesmo?}.
 
     \subsection{Gerenciamento de Risco}
 
-    \todo{Ver sobre segurança do vBulletin}
-
-    \subsection{Contra medidas}
-
-    \todo{Ver se as contra-medidas são para quando já aconteceu o ataque ou se
-    são medidas preventivas}.
-
-    \subsection{Custo/Beneficio}
-
     Considerando que o CAGR é um sistema web, o custo de se realizar um ataque
-    é potencialmente baixo (desconsiderando possíveis consequências). Por
-    exemplo, um \textit{SQL Injection} teria apenas o custo de conhecer a
+    é potencialmente baixo (desconsiderando possíveis consequências jurídicas).
+    Por exemplo, um \textit{SQL Injection} teria apenas o custo de conhecer a
     estrutura interna dos bancos de dados do sistema e achar qual campo não é
     sanitizado.
 
@@ -198,9 +215,15 @@
     informações tem maior impacto quanto no de que, tendo acesso a uma
     informação, potencialmente se tem acesso a todas as outras.
 
-    Há um ponto a ser considerado, porém: por se tratar de uma instituição
-    federal, se o atacante for identificado, as consequências legais podem ser
-    maiores.
+
+
+    \subsection{Contra medidas}
+
+    \todo{Ver se as contra-medidas são para quando já aconteceu o ataque ou se
+    são medidas preventivas}.
+
+    \subsection{Custo/Beneficio}
+
 
     \section{Conclusões}
 
