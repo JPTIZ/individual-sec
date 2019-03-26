@@ -205,27 +205,55 @@
     é potencialmente baixo (desconsiderando possíveis consequências jurídicas).
     Por exemplo, um \textit{SQL Injection} teria apenas o custo de conhecer a
     estrutura interna dos bancos de dados do sistema e achar qual campo não é
-    sanitizado.
+    sanitizado. Quanto ataques via \textit{buffer-overflow}, como o CAGR é
+    feito em Java, ele depende quase totalmente da implementação das
+    bibliotecas utilizadas.
 
-    Quanto ao balanceamento custo/benefício, o CAGR é um sistema direcionado à
-    instituição UFSC, e portanto \emph{potencialmente} não tem \textit{mirrors}
-    espalhados pelo país. Logo, o custo de se realizar um ataque é compensado
-    pelo ganho de se ter acesso à única fonte daquelas informações (salvo
-    \textit{backups}). Isso significa tanto no fato de que obstrução de
-    informações tem maior impacto quanto no de que, tendo acesso a uma
-    informação, potencialmente se tem acesso a todas as outras.
+    Outro detalhe, o CAGR é um sistema direcionado à instituição UFSC, e
+    portanto \emph{potencialmente} não tem \textit{mirrors} espalhados pelo
+    país. Logo, o custo de se realizar um ataque é compensado pelo ganho de se
+    ter acesso à única fonte daquelas informações (salvo \textit{backups}).
+    Isso significa tanto no fato de que obstrução de informações tem maior
+    impacto quanto no de que, tendo acesso a uma informação, potencialmente se
+    tem acesso a todas as outras.
 
-
+    Além disso, centralização pode facilitar ataques como \textit{Denial of
+    Service}. Esse ataque poderia não trazer estragos muito grandes, já que o
+    servidor poderia ser religado pouco depois. Porém, isso poderia gerar
+    transtornos aos alunos (tempo de matrícula, emissão de atestado de
+    matrícula, etc.) e deve-se protegido contra, ainda que não seja um impacto
+    ireto na instituição mas sim em seus clientes.
 
     \subsection{Contra medidas}
 
-    \todo{Ver se as contra-medidas são para quando já aconteceu o ataque ou se
-    são medidas preventivas}.
+    De contra-medidas relacionadas a \textit{software}, a primeira a se pensar,
+    tratando-se de um sistema Web, é a sanitização de entradas de usuário,
+    incluindo via URL (não permitir, por exemplo, um campo ``idAluno'' na URL
+    não ser validado com o usuário \textit{logado} e dar acesso a dados de
+    outros alunos).
+
+    Para evitar ataques como \textit{buffer-overflow}, é importante manter as
+    bibliotecas atualizadas, já que atualizações de segurança são essenciais e
+    nem sempre é possível ficar observando qual atualização de cada biblioteca
+    terá alguma alteração importante.
+
+    Da parte de infraestrutura, o sistema do CAGR deve ter \textit{backups},
+    para evitar perda de informação quando ocorrer alguma invasão com o
+    propósito de destruir informações, e \textit{logs} para tanto indentificar
+    possíveis atacantes quanto desfazer operações indesejadas.
 
     \subsection{Custo/Beneficio}
 
+    Apesar de os custos de se realizar um ataque no CAGR não sejam altos, os
+    benefícios dificilmente compensariam. Boa parte deles são muito
+    direcionados a pessoas específicas em situações específicas. Nas melhores
+    hipóteses (do ponto de vista do atacante), se consegue a senha de algum
+    usuário que possa utilizar a mesma senha em outros lugares.
 
-    \section{Conclusões}
-
-    \todo{TODO}
+    Mesmo um \textit{Denial of Service} não teria tantos benefícios. Inclusive,
+    este possivelmente teria um dos custos mais altos, afinal o CAGR é feito
+    para suportar acesso de todos os alunos da UFSC --- mais de 46 mil ---
+    durante todo o semestre, a ganhos não muito significativos: atrasaria a
+    publicação de médias finais, ou iria atrapalhar o processo de matrícula,
+    porém nada de concreto se conseguiria.
 \end{document}
