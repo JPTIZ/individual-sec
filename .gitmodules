@@ -1,0 +1,4 @@
+[submodule "2-primes/bigint"]
+	path = 2-primes/bigint
+	url = https://github.com/kasparsklavins/bigint
+	branch = master
