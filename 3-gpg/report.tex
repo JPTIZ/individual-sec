@@ -54,6 +54,8 @@
     \end{samepage}
 }
 
+\renewcommand{\thesection}{Parte \arabic{section}.}
+
 %-------------------------------------------------------------------------------
 % Project configs
 \title{%
@@ -68,7 +70,7 @@
     \maketitle{}
 
     %-------------------------------------------------------------------------
-    \section{Parte 1}
+    \section{Introdução a PGP/GPG}
 
     \begin{superframe}
         1. Criar certificado PGP\@.
@@ -91,7 +93,7 @@
     \end{superframe}
 
     %-------------------------------------------------------------------------
-    \section{Parte 2}
+    \section{Revogação de Certificado}
 
     \begin{superframe}
         2. Crie um novo certificado GPG para este trabalho individual (Não use
@@ -162,7 +164,7 @@
     \end{figure}
 
     %-------------------------------------------------------------------------
-    \section{Parte 3}
+    \section{Assinatura e Revogação de Assinatura}
 
     \begin{superframe}
         3. Pratique a revogação de assinaturas e certificados GPG\@. Assine um
@@ -204,7 +206,7 @@
                 Is this okay? (y/N) y
                 gpg> Save changes? (y/N) y
                 $ gpg --send-key 52A4FF6D1F0CC9B8 # Enviar chave ao servidor da RNP
-                gpg: sending key 52A4FF6D1F0CC9B8 to hkps://hkps.pool.sks-keyservers.net
+                gpg: sending key 52A4FF6D1F0CC9B8 to hkp://keyserver.cais.rnp.br
                 $ gpg --recv-key 52A4FF6D1F0CC9B8 # Atualizar dados da chave
             \end{minted}
         \item Após isso, é acessando o site é possível ver que a assinatura foi
@@ -229,7 +231,7 @@
     \end{figure}
 
     %-------------------------------------------------------------------------
-    \section{Parte 4}
+    \section{Anel de Chaves (Keyring)}
 
     \begin{superframe}
         4. O que é o anel de chaves privadas? Como este está estruturado? Na
@@ -237,8 +239,11 @@
         acesso a esse porta chaves?
     \end{superframe}
 
+    O anel de chaves é quem organiza as chaves guardadas em um servidor (local
+    ou remoto), funcionando como um chaveiro.
+
     %-------------------------------------------------------------------------
-    \section{Parte 5}
+    \section{Pergunta}
 
     \begin{superframe}
         5. Qual a diferença entre assinar uma chave local e assinar no
@@ -246,21 +251,21 @@
     \end{superframe}
 
     %-------------------------------------------------------------------------
-    \section{Parte 6}
+    \section{Pergunta}
 
     \begin{superframe}
         6. O que é e como é organizado o banco de dados de confiabilidade?
     \end{superframe}
 
     %-------------------------------------------------------------------------
-    \section{Parte 7}
+    \section{Pergunta}
 
     \begin{superframe}
         7. O que são e para que servem as sub-chaves?
     \end{superframe}
 
     %-------------------------------------------------------------------------
-    \section{Parte 8}
+    \section{Pergunta}
 
     \begin{superframe}
         8. Coloque sua foto (ou uma figura qualquer) que represente você em seu
@@ -268,7 +273,7 @@
     \end{superframe}
 
     %-------------------------------------------------------------------------
-    \section{Parte 9}
+    \section{Pergunta}
 
     \begin{superframe}
         9. O que é preciso para criar e manter um servidor de chaves GPG,
@@ -276,7 +281,7 @@
     \end{superframe}
 
     %-------------------------------------------------------------------------
-    \section{Parte 10}
+    \section{Pergunta}
 
     \begin{superframe}
         10. Dê um exemplo de como tornar sigiloso um arquivo usando o GPG\@.
@@ -285,7 +290,7 @@
     \end{superframe}
 
     %-------------------------------------------------------------------------
-    \section{Parte 11}
+    \section{Pergunta}
 
     \begin{superframe}
         11. Mostre um exemplo de como assinar um arquivo (assinatura anexada e
