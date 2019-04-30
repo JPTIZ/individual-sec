@@ -242,7 +242,7 @@
     O anel de chaves é quem organiza as chaves guardadas em um servidor (local
     ou remoto), funcionando como um chaveiro. Esse anel é armazenado como uma
     lista sequencial de chaves em um arquivo, em que cada chave contém:
-    
+
     \begin{description}
         \item[Carimbo de tempo:] quando o par foi gerado;
         \item[ID da chave:] 64 bits mais significativos da chave pública;
@@ -250,7 +250,7 @@
         \item[Chave privada:] a parte privada da chave, criptografada com uma senha;
         \item[ID do usuário:] geralmente o e-mail do usuário.
     \end{description}
-    
+
     O chaveiro padrão fica localizado na pasta \texttt{\$\{HOME\}/.gnupg}.
     Qualquer um possui acesso ao chaveiro, porém apenas quem tiver a senha pode
     ter acesso à chave privada.
@@ -273,13 +273,13 @@
     \begin{superframe}
         6. O que é e como é organizado o banco de dados de confiabilidade?
     \end{superframe}
-    
+
     O banco de dados de confiabilidade é simplesmente um arquivo (.db) que
     contém uma lista de quais chaves o usuário dono do chaveiro possui
     confiança.
 
     %-------------------------------------------------------------------------
-    \section{Pergunta}
+    \section{Sub-chaves}
 
     \begin{superframe}
         7. O que são e para que servem as sub-chaves?
@@ -291,7 +291,7 @@
     separadamente.
 
     %-------------------------------------------------------------------------
-    \section{Pergunta}
+    \section{Representação própria em um certificado}
 
     \begin{superframe}
         8. Coloque sua foto (ou uma figura qualquer) que represente você em seu
@@ -301,21 +301,21 @@
     OK\@.
 
     %-------------------------------------------------------------------------
-    \section{Pergunta}
+    \section{Servidor de chaves}
 
     \begin{superframe}
         9. O que é preciso para criar e manter um servidor de chaves GPG,
         sincronizado com os demais servidores existentes?
     \end{superframe}
 
-    É preciso utilizar o protocolo SKS. Para sincronizar automaticamente em um
-    servidor, pode-se criar um processo \textit{daemon}, configurar outros
-    servidores SKS, fazer o download dos arquivos de banco de dados (e
-    importá-los), configurar um servidor (com NGinx, por exemplo) e então
-    iniciar o \textit{daemon}.
+    É preciso utilizar o protocolo SKS\@. Para sincronizar automaticamente em
+    um servidor, pode-se criar um processo \textit{daemon}, configurar quais os
+    outros servidores SKS, fazer o download dos arquivos de banco de dados (e
+    importá-los) deles, configurar o servidor web (com NGinx, por exemplo) que
+    irá fazer a sincronização e então iniciar o \textit{daemon}.
 
     %-------------------------------------------------------------------------
-    \section{Pergunta}
+    \section{Arquivos sigilosos}
 
     \begin{superframe}
         10. Dê um exemplo de como tornar sigiloso um arquivo usando o GPG\@.
@@ -329,7 +329,7 @@
     obtivesse o conteúdo original.
 
     %-------------------------------------------------------------------------
-    \section{Pergunta}
+    \section{Assinatura de arquivos}
 
     \begin{superframe}
         11. Mostre um exemplo de como assinar um arquivo (assinatura anexada e
@@ -338,5 +338,14 @@
         mensagem assinada. Verifique se a assinatura está correta.
     \end{superframe}
 
-    Welp.
+    Um arquivo de texto foi enviado a Adriano Tosetto, decriptografado e com a
+    resposta recebida corretamente (\Cref{fig:tosetto-decrypt}).
+
+    \begin{figure}[h]
+        \centering
+        \includegraphics[keepaspectratio,width=1\textwidth]{tosetto-ans-secret}
+        \caption{%
+            Arquivo decriptografado.\label{fig:tosetto-decrypt}
+        }
+    \end{figure}
 \end{document}
