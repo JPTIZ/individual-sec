@@ -240,22 +240,43 @@
     \end{superframe}
 
     O anel de chaves é quem organiza as chaves guardadas em um servidor (local
-    ou remoto), funcionando como um chaveiro.
+    ou remoto), funcionando como um chaveiro. Esse anel é armazenado como uma
+    lista sequencial de chaves em um arquivo, em que cada chave contém:
+    
+    \begin{description}
+        \item[Carimbo de tempo:] quando o par foi gerado;
+        \item[ID da chave:] 64 bits mais significativos da chave pública;
+        \item[Chave pública:] a parte pública da chave;
+        \item[Chave privada:] a parte privada da chave, criptografada com uma senha;
+        \item[ID do usuário:] geralmente o e-mail do usuário.
+    \end{description}
+    
+    O chaveiro padrão fica localizado na pasta \texttt{\$\{HOME\}/.gnupg}.
+    Qualquer um possui acesso ao chaveiro, porém apenas quem tiver a senha pode
+    ter acesso à chave privada.
 
     %-------------------------------------------------------------------------
-    \section{Pergunta}
+    \section{Sobre assinatura local e remota}
 
     \begin{superframe}
         5. Qual a diferença entre assinar uma chave local e assinar no
         servidor?
     \end{superframe}
 
+     A disponibilidade da assinatura: uma chave local possui assinatura
+     conhecida apenas localmente, enquanto em um servidor há, geralmente, uma
+     replicação da assinatura em outros servidores.
+
     %-------------------------------------------------------------------------
-    \section{Pergunta}
+    \section{Banco de dados de confiabilidade}
 
     \begin{superframe}
         6. O que é e como é organizado o banco de dados de confiabilidade?
     \end{superframe}
+    
+    O banco de dados de confiabilidade é simplesmente um arquivo (.db) que
+    contém uma lista de quais chaves o usuário dono do chaveiro possui
+    confiança.
 
     %-------------------------------------------------------------------------
     \section{Pergunta}
@@ -263,6 +284,11 @@
     \begin{superframe}
         7. O que são e para que servem as sub-chaves?
     \end{superframe}
+
+    São como chaves normais, porém ligadas a um par de chaves mestre. Servem
+    tanto para assinatura quanto criptografia, com a vantagem de poderem ser
+    revogadas independentemente da chave mestre e sendo guardadas
+    separadamente.
 
     %-------------------------------------------------------------------------
     \section{Pergunta}
@@ -272,6 +298,8 @@
         certificado GPG\@.
     \end{superframe}
 
+    OK\@.
+
     %-------------------------------------------------------------------------
     \section{Pergunta}
 
@@ -279,6 +307,12 @@
         9. O que é preciso para criar e manter um servidor de chaves GPG,
         sincronizado com os demais servidores existentes?
     \end{superframe}
+
+    É preciso utilizar o protocolo SKS. Para sincronizar automaticamente em um
+    servidor, pode-se criar um processo \textit{daemon}, configurar outros
+    servidores SKS, fazer o download dos arquivos de banco de dados (e
+    importá-los), configurar um servidor (com NGinx, por exemplo) e então
+    iniciar o \textit{daemon}.
 
     %-------------------------------------------------------------------------
     \section{Pergunta}
@@ -289,6 +323,11 @@
         cifrado. Você deve decifrar e recuperar o conteúdo original.
     \end{superframe}
 
+    Basta criptografar o arquivo utilizando alguma chave pública válida do
+    destinatário. Ao mandar um arquivo criptografado para o Adriano Tosetto,
+    foi possível que ele descriptografasse o arquivo com uma chave dele e
+    obtivesse o conteúdo original.
+
     %-------------------------------------------------------------------------
     \section{Pergunta}
 
@@ -298,4 +337,6 @@
         assinada para um colega. Esse colega deve enviar para você outra
         mensagem assinada. Verifique se a assinatura está correta.
     \end{superframe}
+
+    Welp.
 \end{document}
