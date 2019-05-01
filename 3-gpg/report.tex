@@ -205,9 +205,11 @@
                 >
                 Is this okay? (y/N) y
                 gpg> Save changes? (y/N) y
-                $ gpg --send-key 52A4FF6D1F0CC9B8 # Enviar chave ao servidor da RNP
+                $ gpg --keyserver keyserver.cais.rnp.br --send-key 52A4FF6D1F0CC9B8 \
+                    # Enviar chave ao servidor da RNP
                 gpg: sending key 52A4FF6D1F0CC9B8 to hkp://keyserver.cais.rnp.br
-                $ gpg --recv-key 52A4FF6D1F0CC9B8 # Atualizar dados da chave
+                $ gpg --keyserver keyserver.cais.rnp.br --recv-key 52A4FF6D1F0CC9B8 \
+                    # Atualizar dados da chave
             \end{minted}
         \item Após isso, é acessando o site é possível ver que a assinatura foi
             revogado (\Cref{fig:revokeed-sign}).
