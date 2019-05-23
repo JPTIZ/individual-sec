@@ -1,0 +1,172 @@
+%-------------------------------------------------------------------------------
+\documentclass{article}
+
+%-------------------------------------------------------------------------------
+% Packages
+
+% Translation
+\usepackage[brazilian]{babel}
+
+% General
+\usepackage{amsmath}
+\usepackage{environ}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage{minted}
+\usepackage{xcolor}
+
+% To-do List
+\usepackage{amssymb}
+\usepackage{pifont}
+\usepackage{enumitem}
+
+% Other
+\usepackage{hyperref}
+\usepackage[brazilian]{cleveref} % Must be after hyperref
+
+
+% Custom lists
+\newlist{todolist}{itemize}{2}
+\setlist[todolist]{label=$\square$}
+\newcommand{\done}{%
+    \rlap{$\square$}{%
+        \raisebox{2pt}{\large\hspace{1pt}\ding{51}
+    }}\hspace{-2.5pt}
+}
+
+%-------------------------------------------------------------------------------
+% User-commands
+\newcommand{\todo}[1]{{\color{red}{#1}}}
+
+\NewEnviron{superframe}{%
+    \begin{center}
+        \fbox{\setlength{\fboxsep}{1em}\fbox{\parbox{5.5in}{%
+            \BODY{}
+        }}}
+    \end{center}
+}
+
+\NewEnviron{answer}{%
+    \begin{samepage}
+        \begin{solution}
+            \BODY{}
+        \end{solution}
+    \end{samepage}
+}
+
+\renewcommand{\thesection}{Parte \arabic{section}.}
+
+%-------------------------------------------------------------------------------
+% Project configs
+\title{%
+    Segurança em Computação \\
+    Trabalho Individual IV
+}
+\author{João Paulo Taylor Ienczak Zanette}
+\date{\today}
+
+%------------------------------------------------------------------------------
+\begin{document}
+    \maketitle{}
+
+    %--------------------------------------------------------------------------
+    \section{Usando o NMAP}
+
+    \begin{superframe}
+        Copie e cole screenshots de telas obtidas na execução dos comandos.
+        Explique brevemente a saída obtida em cada um dos comandos das questões
+        1, 2, 3 e 4.
+
+        \begin{enumerate}
+            \item \texttt{nmap -sV -O 10.1.2.6};
+            \item \texttt{nmap -v -A 10.1.2.6};
+            \item \texttt{nmap -sS -v --top-ports 10 --reason -oA saidanmap www.ufsc.br};
+            \item Crie um comando com opções diferentes das usadas nas questões
+                anteriores e explique a saída obtida pelo seu comando.
+            \item Responda:
+                \begin{enumerate}
+                    \item Qual a diferença entre um scan de conexão TCP e um
+                        SYN scan?
+                    \item Qual questão anterior usa scan de conexão TCP e qual
+                        questão usa SYN scan?
+                    \item Comente pelo menos uma vulnerabilidade da máquina
+                        Owasp Broken, listando a identificação CVE
+                        (\url{cve.mitre.org}) da vulnerabilidade.
+                \end{enumerate}
+        \end{enumerate}
+    \end{superframe}
+
+    %--------------------------------------------------------------------------
+    \section{Nikto}
+
+    \begin{superframe}
+        \begin{enumerate}
+            \item Execute o comando \texttt{nikto -host http://10.1.2.6/Wacko -o nikto.html -format htm}.
+                \begin{enumerate}
+                    \item Copie e cole screenshots de telas obtidas na execução do
+                        comando;
+                    \item Explique o que mais chamou sua atenção na saída obtida.
+                        Explique também alguma vulnerabilidade encontrada nessa
+                        aplicação (WackoPicko) que consta no relatório do arquivo
+                        muti.html.
+                \end{enumerate}
+        \end{enumerate}
+    \end{superframe}
+
+    %--------------------------------------------------------------------------
+    \section{OWASP}
+
+    \begin{superframe}
+        \begin{enumerate}
+            \item Explique as vulnerabilidades A1, A2, A3 e A7 do documento TOP TEN
+                2017:
+                \url{https://www.owasp.org/images/7/72/OWASP_Top_10-2017_$28en$29.pdf.pdf};
+            \item Faça:
+                \begin{enumerate}
+                    \item Acesse a aplicação Mutillidae: abra o browser da sua
+                        máquina real ou na Kali Linux no site \url{http://<IP da
+                        Kali>/mutillidae} e clique em Login. No campo Username,
+                        digite \texttt{' or 1=1 -- }. O campo password pode ficar
+                        em branco. Copie e cole a tela do seu experimento;
+                    \item Explique o resultado obtido e a vulnerabilidade explorada
+                        no experimento (pesquise no documento do TOP 10 da OWASP);
+                    \item O que pode ser feito para impedir a exploração dessa
+                        vulnerabilidade?
+                    \item Clique em Logout.
+                \end{enumerate}
+            \item Repita a inserção da mesma string anterior no seguinte link:
+                \url{http://<IP da Kali>/mutillidae/index.php?page=user-info.php};
+                \begin{enumerate}
+                    \item Explique a vulnerabilidade explorada no experimento
+                        (pesquise no documento do TOP 10 da OWASP);
+                    \item Copie e cole um screenshot da execução de um experimento;
+                    \item O que pode ser feito para impedir a exploração dessa
+                        vulnerabilidade?
+                \end{enumerate}
+            \item Você deve utilizar a ferramenta OWASP ZAP (Zed Attack Proxy) da
+                Kali Linux. As ferramentas de scan de web são encontradas no menu
+                Kali-Linux -> O3 --- Web Application Analysis -> owasp-zap. Faã um
+                scan das vulnerabilidades da aplicação WackoPicko da máquina OWASP
+                Broken usando a ferramenta. Faça:
+                \begin{enumerate}
+                    \item Coloque a URL da aplicação --- \url{http://<IP da
+                        OWASP>/WackoPicko} --- e clique em ``Attack''. A análise
+                        básica é iniciada. Demora um pouco (de 8 a 10 minutos) e
+                        você deve salvar o relatório geral do processo (opção
+                        Report -> Generate HTML Report). Os alertas (aba Alerts)
+                        vão listando as vulnerabilidades encontradas. Na aba Active
+                        Scan é possível ver os requests sendo enviados.
+                    \item Comente o experimento e os resultados alcançados.
+                \end{enumerate}
+            \item Observe a lista de vulnerabilidades da aplicação Mutillidae
+                disponível em \url{http://<IP da
+                Kali>/mutillidae/index.php?page=./documentation/vulnerabilities.php}.
+                Agora você deve escolher duas vulnerabilidades do TOP 10 2017 da
+                lista da OWASP e criar uma forma de ataque para cada uma das
+                vulnerabilidades escolhidas. Assim, você deve criar dois ataques
+                (devem ser diferentes dos ataques das questões 8 e 9). Documente os
+                experimentos e mostre funcionando na apresentação. Na apresentação
+                você também deve explicar as vulnerabilidades.
+        \end{enumerate}
+    \end{superframe}
+\end{document}
