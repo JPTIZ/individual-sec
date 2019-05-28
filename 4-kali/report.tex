@@ -39,6 +39,9 @@
 \newcommand{\todo}[1]{{\color{red}{#1}}}
 
 \newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\img}[1]{%
+    \includegraphics[width=1\textwidth, height=1\textheight, keepaspectratio]{#1}
+}
 
 \NewEnviron{superframe}{%
     \begin{center}
@@ -82,8 +85,15 @@
         \begin{enumerate}
             \item \texttt{nmap -sV -O 10.1.2.6};
 
-                As flags \code{}
+                A flag \code{-sV} indica para o \code{nmap} fazer uma busca por
+                serviços (e suas respectivas versões) em cada porta aberta no
+                \textit{host} 10.1.2.6. A flag \code{-O} serve para tentar
+                identificar qual o SO do \textit{host} especificado.
+
+                \img{imgs/q1-1.png}
+
             \item \texttt{nmap -v -A 10.1.2.6};
+
             \item \texttt{nmap -sS -v --top-ports 10 --reason -oA saidanmap
                 www.ufsc.br};
             \item Crie um comando com opções diferentes das usadas nas questões
