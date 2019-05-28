@@ -367,13 +367,22 @@
                     usina.
             \end{enumerate}
 
-        \item Conforme descrito na reportagem, acesse o link
+        \item \textbf{Conforme descrito na reportagem, acesse o link
             \url{http://166.161.197.253:5001/cgi-bin/guestimage.html}. É uma
-            câmera Mobotix. Responda:
+            câmera Mobotix. Responda:}
 
             \begin{enumerate}
                 \item O que é possível visualizar?
+
+                    Uma câmera de monitoramento publicamente disponível (mais
+                    uma vez, seja intencionalmente ou por uma falha de
+                    configuração), convenientemente nomeada de ``Apple
+                    Outdoor''. 
+
                 \item Um atacante poderia fazer o que com este acesso?
+
+                    Desviar a câmera para um ponto em que não se tenha visão de
+                    alguma ação ilegal (e.g. um furto de veículo).
             \end{enumerate}
     \end{enumerate}
 
@@ -426,12 +435,31 @@
             \item Copie e cole a screenshot da sua tela ao realizar o
                 experimento anterior. Depois, explique o experimento:
 
+                \todo{Feed me images >:)}
+
                 \begin{enumerate}
                     \item O que é o ataque do dicionário?
+
+                        É um ataque que consiste em testar combinações padrões
+                        conhecidas de usuário/senha.
+
                     \item O que foi encontrado?
+
+                        A combinação de usuário/senha admin padrão.
+
                     \item Qual foi a vulnerabilidade usada para obter esse
                         resultado?
+
+                        Uso de configurações padrões para autenticação.
+
                     \item Como pode ser explorado esse resultado?
+
+                        Como Tomcat é um servidor para tecnologias relacionadas
+                        a JavaEE, o atacante pode fazer qualquer ação enquanto
+                        admin que interfira nos serviços Java disponíveis
+                        (desde \textit{Denial of Service} até roubo de
+                        informações ou mesmo bloqueio de acesso à informação
+                        com liberação mediante alguma recompensa).
                 \end{enumerate}
         \end{enumerate}
     \end{superframe}
@@ -473,6 +501,8 @@
                 experimentos). Agora, explique os experimentos respondendo
                 perguntas:
 
+                \todo{Feed me moooooore!}
+
             \begin{enumerate}
                 \item Qual a vulnerabilidade que está sendo explorada?
                 \item O que faz o exploit para explorar a vulnerabilidade?
@@ -485,9 +515,4 @@
             \end{enumerate}
         \end{enumerate}
     \end{superframe}
-
-    Sequência de meterpreters:
-
-    --- ps
-    ---
 \end{document}
