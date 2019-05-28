@@ -15,6 +15,8 @@
 \usepackage{minted}
 \usepackage{xcolor}
 
+\setminted{autogobble}
+
 % To-do List
 \usepackage{amssymb}
 \usepackage{pifont}
@@ -81,115 +83,220 @@
         Copie e cole screenshots de telas obtidas na execução dos comandos.
         Explique brevemente a saída obtida em cada um dos comandos das questões
         1, 2, 3 e 4.
-
-        \begin{enumerate}
-            \item \texttt{nmap -sV -O 10.1.2.6};
-
-                A flag \code{-sV} indica para o \code{nmap} fazer uma busca por
-                serviços (e suas respectivas versões) em cada porta aberta no
-                \textit{host} 10.1.2.6. A flag \code{-O} serve para tentar
-                identificar qual o SO do \textit{host} especificado.
-
-                \img{imgs/q1-1.png}
-
-            \item \texttt{nmap -v -A 10.1.2.6};
-
-            \item \texttt{nmap -sS -v --top-ports 10 --reason -oA saidanmap
-                www.ufsc.br};
-            \item Crie um comando com opções diferentes das usadas nas questões
-                anteriores e explique a saída obtida pelo seu comando.
-            \item Responda:
-                \begin{enumerate}
-                    \item Qual a diferença entre um scan de conexão TCP e um
-                        SYN scan?
-                    \item Qual questão anterior usa scan de conexão TCP e qual
-                        questão usa SYN scan?
-                    \item Comente pelo menos uma vulnerabilidade da máquina
-                        Owasp Broken, listando a identificação CVE
-                        (\url{cve.mitre.org}) da vulnerabilidade.
-                \end{enumerate}
-        \end{enumerate}
     \end{superframe}
+
+    \begin{enumerate}
+        \item \texttt{nmap -sV -O 10.1.2.6};
+
+            O comando mostra todas as portas abertas (flag \code{-sV}), quais
+            serviços (e suas respectivas versões) estão mapeados a elas. No
+            final são mostradas informações do SO do \textit{host} 10.1.2.6
+            (flag \code{-O}).
+
+            \img{imgs/q1_1}
+
+        \item \texttt{nmap -v -A 10.1.2.6};
+
+            O comando mostra, com um bom nível de detalhes (por causa da flag
+            de verbosidade --- \code{-v}), sobre:
+            \begin{itemize}
+                \item Portas, serviços e suas versões;
+                \item Sistema Operacional do \textit{host};
+                \item Resultado da execução de alguns scripts para buscar
+                    informações do \textit{host} (como configurações);
+                \item Rota de rede (\textit{traceroute}).
+            \end{itemize}
+
+            \img{imgs/q1_2_1}
+            \img{imgs/q1_2_2}
+            \img{imgs/q1_2_3}
+
+        \item \texttt{nmap -sS -v --top-ports 10 --reason -oA saidanmap
+            www.ufsc.br};
+
+            O comando mostra as 10 portas mais comuns, estejam abertas ou não,
+            utilizando TCP SYN, mostrando a resposta dada pela porta
+            (\code{--reason}), e joga o resultado para três arquivos (um para
+            cada extensão: \code{nmap}, \code{xml}, \code{gnmap}) com o prefixo
+            \code{saidanmap}.
+
+            \img{imgs/q1_3_1}
+            \img{imgs/q1_3_2}
+
+        \item \textbf{Crie um comando com opções diferentes das usadas nas
+                questões anteriores e explique a saída obtida pelo seu
+                comando.}
+
+            1º Comando: \code{nmap -sS 10.1.2.6 -D 192.168.0.2}. Esse comando
+            faz um SYN Scan em \code{10.1.2.6}, porém usando \code{192.168.0.2}
+            como \textit{decoy}, de forma que os \textit{scans} se passem por
+            originados de algum outro endereço, dificultando a detecção de
+            \textit{scans}.
+
+            \img{imgs/q1_4_1}
+
+            2º Comando: \code{nmap -sP 10.1.2.*}. Esse comando faz um
+            \textit{scan}, mas não por portas, e sim por quais os endereços
+            ativos no intervalo \code{10.1.2.0} a \code{10.1.2.255}. É possível
+            identificar as duas VMs através disso.
+
+            \img{imgs/q1_4_2}
+
+        \item Responda:
+            \begin{enumerate}
+                \item \textbf{Qual a diferença entre um scan de conexão TCP e
+                        um SYN scan?}
+
+                    Um SYN Scan espera apenas pelo ACK de um sinal de SYN,
+                    servindo então para \textit{scans} rápidos.
+
+                    Um TCP Scan executa todo o protocolo para se
+                    estabelecer uma conexão TCP (incluindo o
+                    \textit{handshake}), sendo portanto mais lento.
+
+                \item \textbf{Qual questão anterior usa scan de conexão TCP e
+                        qual questão usa SYN scan?}
+
+                    A questão 3 é a única que usa um SYN Scan (fora o comando
+                    próprio na questão 4). Os demais usam todos TCP Scan.
+
+                \item \textbf{Comente pelo menos uma vulnerabilidade da máquina
+                        Owasp Broken, listando a identificação CVE
+                        (\url{cve.mitre.org}) da vulnerabilidade.}
+
+                    A assinatura de mensagens não está habilitada por padrão
+                    (\code{CVE-2017-12150}). Isso só foi corrigido na versão
+                    4.4.16, e as versão do Samba rodando no Owasp são a versão
+                    3 e possivelmente 4, porém anteriores à 4.4.16.
+            \end{enumerate}
+    \end{enumerate}
 
     %--------------------------------------------------------------------------
     \section{Nikto}
 
-    \begin{superframe}
-        \begin{enumerate}
-            \setcounter{enumi}{5}
-            \item Execute o comando \texttt{nikto -host http://10.1.2.6/Wacko -o nikto.html -format htm}.
-                \begin{enumerate}
-                    \item Copie e cole screenshots de telas obtidas na execução do
-                        comando;
-                    \item Explique o que mais chamou sua atenção na saída obtida.
-                        Explique também alguma vulnerabilidade encontrada nessa
-                        aplicação (WackoPicko) que consta no relatório do arquivo
-                        muti.html.
-                \end{enumerate}
-        \end{enumerate}
-    \end{superframe}
+    \begin{enumerate}
+        \setcounter{enumi}{5}
+        \item Execute o comando \code{nikto -host http://10.1.2.6/Wacko -o
+            nikto.html -format htm}.
+
+            \begin{enumerate}
+                \item \textbf{Copie e cole screenshots de telas obtidas na
+                        execução do comando;}
+
+                    \img{imgs/q1_5}
+
+                \item \textbf{Explique o que mais chamou sua atenção na saída
+                    obtida.  Explique também alguma vulnerabilidade encontrada
+                    nessa aplicação (WackoPicko) que consta no relatório do
+                    arquivo muti.html.}
+
+                    Primeiramente, me chamou atenção a existência de Python2.6
+                    quando há milênios estamos com Python 2.7. Fora isso,
+                    vários pacotes estão muito desatualizados (PHP 5 já havia
+                    sido um grande \textit{update} de segurança, e mesmo assim
+                    está \textit{outdated} há bastante tempo). Há também a não
+                    definição de um \textit{header} de proteção contra XSS\@.
+                    Isso se reflete no relatório do ZAP pela presença de
+                    vulnerabilidades grandes como XSS e SQL Injection.
+            \end{enumerate}
+    \end{enumerate}
 
     %--------------------------------------------------------------------------
     \section{OWASP}
 
-    \begin{superframe}
-        \begin{enumerate}
-            \setcounter{enumi}{6}
-            \item Explique as vulnerabilidades A1, A2, A3 e A7 do documento TOP
-                TEN 2017:
-                \url{https://www.owasp.org/images/7/72/OWASP_Top_10-2017_$28en$29.pdf.pdf};
-            \item Faça:
-                \begin{enumerate}
-                    \item Acesse a aplicação Mutillidae: abra o browser da sua
-                        máquina real ou na Kali Linux no site \url{http://<IP
-                        da Kali>/mutillidae} e clique em Login. No campo
-                        Username, digite \texttt{' or 1=1 -- }. O campo
-                        password pode ficar em branco. Copie e cole a tela do
-                        seu experimento;
-                    \item Explique o resultado obtido e a vulnerabilidade
-                        explorada no experimento (pesquise no documento do TOP
-                        10 da OWASP);
-                    \item O que pode ser feito para impedir a exploração dessa
-                        vulnerabilidade?
-                    \item Clique em Logout.
-                \end{enumerate}
-            \item Repita a inserção da mesma string anterior no seguinte link:
-                \url{http://<IP da Kali>/mutillidae/index.php?page=user-info.php};
-                \begin{enumerate}
-                    \item Explique a vulnerabilidade explorada no experimento
-                        (pesquise no documento do TOP 10 da OWASP);
-                    \item Copie e cole um screenshot da execução de um
-                        experimento;
-                    \item O que pode ser feito para impedir a exploração dessa
-                        vulnerabilidade?
-                \end{enumerate}
-            \item Você deve utilizar a ferramenta OWASP ZAP (Zed Attack Proxy)
-                da Kali Linux. As ferramentas de scan de web são encontradas no
-                menu Kali-Linux -> O3 --- Web Application Analysis ->
-                owasp-zap. Faça um scan das vulnerabilidades da aplicação
-                WackoPicko da máquina OWASP Broken usando a ferramenta. Faça:
-                \begin{enumerate}
-                    \item Coloque a URL da aplicação --- \url{http://<IP da
-                        OWASP>/WackoPicko} --- e clique em ``Attack''. A
-                        análise básica é iniciada. Demora um pouco (de 8 a 10
-                        minutos) e você deve salvar o relatório geral do
-                        processo (opção Report -> Generate HTML Report). Os
-                        alertas (aba Alerts) vão listando as vulnerabilidades
-                        encontradas. Na aba Active Scan é possível ver os
-                        requests sendo enviados.
-                    \item Comente o experimento e os resultados alcançados.
-                \end{enumerate}
-            \item Observe a lista de vulnerabilidades da aplicação Mutillidae
-                disponível em \url{http://<IP da
-                Kali>/mutillidae/index.php?page=./documentation/vulnerabilities.php}.
-                Agora você deve escolher duas vulnerabilidades do TOP 10 2017
-                da lista da OWASP e criar uma forma de ataque para cada uma das
-                vulnerabilidades escolhidas. Assim, você deve criar dois
-                ataques (devem ser diferentes dos ataques das questões 8 e 9).
-                Documente os experimentos e mostre funcionando na apresentação.
-                Na apresentação você também deve explicar as vulnerabilidades.
-        \end{enumerate}
-    \end{superframe}
+    \begin{enumerate}
+        \setcounter{enumi}{6}
+        \item Explique as vulnerabilidades A1, A2, A3 e A7 do documento TOP
+            TEN 2017:
+            \url{https://www.owasp.org/images/7/72/OWASP_Top_10-2017_%28en%29.pdf.pdf};
+        \item Faça:
+            \begin{enumerate}
+                \item \textbf{Acesse a aplicação Mutillidae: abra o browser da
+                        sua máquina real ou na Kali Linux no site
+                        \url{http://<IP da Kali>/mutillidae} e clique em Login.
+                        No campo Username, digite \texttt{' or 1=1 -- }. O
+                        campo password pode ficar em branco. Copie e cole a
+                    tela do seu experimento;}
+
+                    \img{imgs/q2_2}
+
+                \item \textbf{Explique o resultado obtido e a vulnerabilidade
+                    explorada no experimento (pesquise no documento do TOP 10
+                da OWASP);}
+
+                    Foi explorado o uso de SQL Injection, que simplesmente
+                    consiste em o \textit{input} do usuário ser inserido
+                    diretamente na query, algo como:
+
+                    \begin{minted}{sql}
+                        select user.name
+                        from users
+                        where user.name='%s' and user.password='%s'
+                    \end{minted}
+
+                    Ao se inserir \code{' or 1=1 -- }, o texto formatado vira:
+
+                    \begin{minted}{sql}
+                        select user.name
+                        from users
+                        where user.name='' or 1=1 -- user.password=''
+                    \end{minted}
+
+                    Ou seja, a verificação de senha é comentada, e \code{1=1} é
+                    sempre verdadeiro. Logo, um \code{or} com verdadeiro é uma
+                    tautologia, e portanto é sempre logado no primeiro usuário
+                    que der match na query, que potencialmente é o admin
+                    (inclusive, nesse caso, foi o admin).
+
+                \item \textbf{O que pode ser feito para impedir a exploração
+                    dessa vulnerabilidade?}
+
+                    Basta sanitizar a entrada, o que geralmente consiste em
+                    simplesmente escapar caracteres que não sejam alfanuméricos
+                    (como aspas, que se tornarão \code{\textbackslash'} em vez
+                    de \code{'}).
+
+                \item \textbf{Clique em Logout.}
+            \end{enumerate}
+        \item Repita a inserção da mesma string anterior no seguinte link:
+            \url{http://<IP da Kali>/mutillidae/index.php?page=user-info.php};
+            \begin{enumerate}
+                \item Explique a vulnerabilidade explorada no experimento
+                    (pesquise no documento do TOP 10 da OWASP);
+                \item Copie e cole um screenshot da execução de um
+                    experimento;
+
+                    \img{imgs/q2_3}
+
+                \item O que pode ser feito para impedir a exploração dessa
+                    vulnerabilidade?
+            \end{enumerate}
+        \item Você deve utilizar a ferramenta OWASP ZAP (Zed Attack Proxy)
+            da Kali Linux. As ferramentas de scan de web são encontradas no
+            menu Kali-Linux -> O3 --- Web Application Analysis ->
+            owasp-zap. Faça um scan das vulnerabilidades da aplicação
+            WackoPicko da máquina OWASP Broken usando a ferramenta. Faça:
+            \begin{enumerate}
+                \item Coloque a URL da aplicação --- \url{http://<IP da
+                    OWASP>/WackoPicko} --- e clique em ``Attack''. A
+                    análise básica é iniciada. Demora um pouco (de 8 a 10
+                    minutos) e você deve salvar o relatório geral do
+                    processo (opção Report -> Generate HTML Report). Os
+                    alertas (aba Alerts) vão listando as vulnerabilidades
+                    encontradas. Na aba Active Scan é possível ver os
+                    requests sendo enviados.
+                \item Comente o experimento e os resultados alcançados.
+            \end{enumerate}
+        \item Observe a lista de vulnerabilidades da aplicação Mutillidae
+            disponível em \url{http://<IP da
+            Kali>/mutillidae/index.php?page=./documentation/vulnerabilities.php}.
+            Agora você deve escolher duas vulnerabilidades do TOP 10 2017
+            da lista da OWASP e criar uma forma de ataque para cada uma das
+            vulnerabilidades escolhidas. Assim, você deve criar dois
+            ataques (devem ser diferentes dos ataques das questões 8 e 9).
+            Documente os experimentos e mostre funcionando na apresentação.
+            Na apresentação você também deve explicar as vulnerabilidades.
+    \end{enumerate}
 
     \section{Vulnerabilidades em IoT}
 
