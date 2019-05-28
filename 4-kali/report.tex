@@ -310,48 +310,72 @@
 
                     hmmm.
             \end{enumerate}
-        \item \textbf{Observe a lista de vulnerabilidades da aplicação
-                Mutillidae disponível em \url{http://<IP da
-                Kali>/mutillidae/index.php?page=./documentation/vulnerabilities.php}.
-                Agora você deve escolher duas vulnerabilidades do TOP 10 2017
-                da lista da OWASP e criar uma forma de ataque para cada uma das
-                vulnerabilidades escolhidas. Assim, você deve criar dois
-                ataques (devem ser diferentes dos ataques das questões 8 e 9).
-                Documente os experimentos e mostre funcionando na apresentação.
-                Na apresentação você também deve explicar as vulnerabilidades.}
+    \item \textbf{Observe a lista de vulnerabilidades da aplicação
+        Mutillidae disponível em \url{http://<IP da
+        Kali>/mutillidae/index.php?page=./documentation/vulnerabilities.php}.
+        Agora você deve escolher duas vulnerabilidades do TOP 10 2017
+        da lista da OWASP e criar uma forma de ataque para cada uma das
+        vulnerabilidades escolhidas. Assim, você deve criar dois
+        ataques (devem ser diferentes dos ataques das questões 8 e 9).
+        Documente os experimentos e mostre funcionando na apresentação.
+        Na apresentação você também deve explicar as vulnerabilidades.}
 
-                1ª Vulnerabilidade: HTML Injection. Como não há sanitização no
-                formulário de cadastro, é possível cadastrar um usuário com
-                nome ``\mintinline{text}{José <iframe
-            src="forum.cagr.ufsc.br/listarMembros.jsf?busca=sim"> Freitas}''
+        1ª Vulnerabilidade: HTML Injection. Como não há sanitização no
+        formulário de cadastro, é possível cadastrar um usuário com nome
+        ``\mintinline{text}{José <iframe
+        src="forum.cagr.ufsc.br/listarMembros.jsf?busca=sim"> Freitas}'',
+        ou ainda um usuário com o corpo completo do HTML da página do
+        \code{iframe} como nome.
+        Isso permite que se crie, por exemplo, um usuário com nome que seja
+        um conteúdo HTML semelhante ao que se esperaria de uma página comum
+        do servidor, porém contenha algum JavaScript que retire o contéudo
+        original (ficando então exibido só o conteúdo falso), e direcione
+        requisições do input do usuário para alguma ação maliciosa.
+
+        Mais uma vez, isso se dá pela entrada não ser sanitizada, fazendo
+        com que o nome do usuário seja interpretado diretamente como HTML
+        válido. Então se há um \code{<h1>} nele, isso será contado como um
+        elemento HTML e portanto se terá um bloco de heading que não estava
+        planejado.
     \end{enumerate}
 
     \section{Vulnerabilidades em IoT}
 
-    \begin{superframe}
-        \begin{enumerate}
-            \setcounter{enumi}{11}
-            \item Leia a reportagem com título ``Find webcams, databases, boats
-                in the sea using Shodan'' disponível em
-                \url{https://www.securitynewspaper.com/2018/11/27/find-webcams-databases-boats-in-the-sea-using-shodan/}.
-                Responda:
+    \begin{enumerate}
+        \setcounter{enumi}{11}
+        \item \textbf{Leia a reportagem com título ``Find webcams, databases,
+            boats in the sea using Shodan'' disponível em
+            \url{https://www.securitynewspaper.com/2018/11/27/find-webcams-databases-boats-in-the-sea-using-shodan/}.
+            Responda:}
 
-                \begin{enumerate}
-                    \item O que é o Shodan e o que é possível fazer com esse
-                        site?
-                    \item (Apresentação) Faça o registro no site, pesquise e
-                        liste algum dispositivo IoT que você encontrou.
-                \end{enumerate}
+            \begin{enumerate}
+                \item \textbf{O que é o Shodan e o que é possível fazer com esse site?}
+
+                    Shodan é um site que busca por câmeras de monitoramento e
+                    dispositivos semelhantes que estejam publicamente
+                    disponíveis (seja por utilizarem configurações padrões de
+                    autenticação, por exemplo, ou estarem explicitamente
+                    abertas ao público).
+
+                \item \textbf{(Apresentação) Faça o registro no site, pesquise
+                    e liste algum dispositivo IoT que você encontrou.}
+
+                    Buscando por dispositivos do tipo ``Power Plant'', foi
+                    encontrada uma usina da Calpide Industries em Scottsdale,
+                    USA, com IP \code{50.62.101.66} e porta 21, comumente
+                    utilizada para FTP. Ou seja, provalmente é o servidor da
+                    usina.
+            \end{enumerate}
 
         \item Conforme descrito na reportagem, acesse o link
             \url{http://166.161.197.253:5001/cgi-bin/guestimage.html}. É uma
             câmera Mobotix. Responda:
+
             \begin{enumerate}
                 \item O que é possível visualizar?
                 \item Um atacante poderia fazer o que com este acesso?
             \end{enumerate}
-        \end{enumerate}
-    \end{superframe}
+    \end{enumerate}
 
     \section{Metasploit}
 
