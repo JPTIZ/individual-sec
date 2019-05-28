@@ -15,7 +15,10 @@
 \usepackage{minted}
 \usepackage{xcolor}
 
-\setminted{autogobble}
+\setminted{%
+    autogobble,
+    xleftmargin=4em,
+}
 
 % To-do List
 \usepackage{amssymb}
@@ -257,45 +260,70 @@
                     de \code{'}).
 
                 \item \textbf{Clique em Logout.}
+
+                    Ok.
+
             \end{enumerate}
-        \item Repita a inserção da mesma string anterior no seguinte link:
-            \url{http://<IP da Kali>/mutillidae/index.php?page=user-info.php};
+        \item \textbf{Repita a inserção da mesma string anterior no seguinte
+                link: \url{http://<IP da
+            Kali>/mutillidae/index.php?page=user-info.php};}
             \begin{enumerate}
-                \item Explique a vulnerabilidade explorada no experimento
-                    (pesquise no documento do TOP 10 da OWASP);
-                \item Copie e cole um screenshot da execução de um
-                    experimento;
+                \item \textbf{Explique a vulnerabilidade explorada no
+                    experimento (pesquise no documento do TOP 10 da OWASP);}
+
+                    Nesse caso, o SQL Injection apenas fez com que todos os
+                    resultados da busca fossem trazidos (afinal, o resultado é
+                    sempre verdadeiro), dando acesso a dados confidenciais. Não
+                    só isso, revela que todas as senhas estão em em
+                    \textit{plaintext}.
+
+                \item \textbf{Copie e cole um screenshot da execução de um
+                    experimento;}
 
                     \img{imgs/q2_3}
 
-                \item O que pode ser feito para impedir a exploração dessa
-                    vulnerabilidade?
+                \item \textbf{O que pode ser feito para impedir a exploração
+                    dessa vulnerabilidade?}
+
+                    Sanitizar a entrada, assim como na questão anterior. E
+                    cifrar as senhas.
             \end{enumerate}
-        \item Você deve utilizar a ferramenta OWASP ZAP (Zed Attack Proxy)
-            da Kali Linux. As ferramentas de scan de web são encontradas no
-            menu Kali-Linux -> O3 --- Web Application Analysis ->
-            owasp-zap. Faça um scan das vulnerabilidades da aplicação
-            WackoPicko da máquina OWASP Broken usando a ferramenta. Faça:
+        \item \textbf{Você deve utilizar a ferramenta OWASP ZAP (Zed Attack
+                Proxy) da Kali Linux. As ferramentas de scan de web são
+                encontradas no menu Kali-Linux -> O3 --- Web Application
+                Analysis -> owasp-zap. Faça um scan das vulnerabilidades da
+                aplicação WackoPicko da máquina OWASP Broken usando a
+            ferramenta. Faça:}
+
             \begin{enumerate}
-                \item Coloque a URL da aplicação --- \url{http://<IP da
-                    OWASP>/WackoPicko} --- e clique em ``Attack''. A
-                    análise básica é iniciada. Demora um pouco (de 8 a 10
-                    minutos) e você deve salvar o relatório geral do
-                    processo (opção Report -> Generate HTML Report). Os
-                    alertas (aba Alerts) vão listando as vulnerabilidades
-                    encontradas. Na aba Active Scan é possível ver os
-                    requests sendo enviados.
-                \item Comente o experimento e os resultados alcançados.
+                \item \textbf{Coloque a URL da aplicação --- \url{http://<IP da
+                        OWASP>/WackoPicko} --- e clique em ``Attack''. A
+                        análise básica é iniciada. Demora um pouco (de 8 a 10
+                        minutos) e você deve salvar o relatório geral do
+                        processo (opção Report -> Generate HTML Report). Os
+                        alertas (aba Alerts) vão listando as vulnerabilidades
+                        encontradas. Na aba Active Scan é possível ver os
+                    requests sendo enviados.}
+
+                \item \textbf{Comente o experimento e os resultados
+                    alcançados.}
+
+                    hmmm.
             \end{enumerate}
-        \item Observe a lista de vulnerabilidades da aplicação Mutillidae
-            disponível em \url{http://<IP da
-            Kali>/mutillidae/index.php?page=./documentation/vulnerabilities.php}.
-            Agora você deve escolher duas vulnerabilidades do TOP 10 2017
-            da lista da OWASP e criar uma forma de ataque para cada uma das
-            vulnerabilidades escolhidas. Assim, você deve criar dois
-            ataques (devem ser diferentes dos ataques das questões 8 e 9).
-            Documente os experimentos e mostre funcionando na apresentação.
-            Na apresentação você também deve explicar as vulnerabilidades.
+        \item \textbf{Observe a lista de vulnerabilidades da aplicação
+                Mutillidae disponível em \url{http://<IP da
+                Kali>/mutillidae/index.php?page=./documentation/vulnerabilities.php}.
+                Agora você deve escolher duas vulnerabilidades do TOP 10 2017
+                da lista da OWASP e criar uma forma de ataque para cada uma das
+                vulnerabilidades escolhidas. Assim, você deve criar dois
+                ataques (devem ser diferentes dos ataques das questões 8 e 9).
+                Documente os experimentos e mostre funcionando na apresentação.
+                Na apresentação você também deve explicar as vulnerabilidades.}
+
+                1ª Vulnerabilidade: HTML Injection. Como não há sanitização no
+                formulário de cadastro, é possível cadastrar um usuário com
+                nome ``\mintinline{text}{José <iframe
+            src="forum.cagr.ufsc.br/listarMembros.jsf?busca=sim"> Freitas}''
     \end{enumerate}
 
     \section{Vulnerabilidades em IoT}
