@@ -26,6 +26,7 @@
 \usepackage{enumitem}
 
 % Other
+\PassOptionsToPackage{hyphens}{url}
 \usepackage{hyperref}
 \usepackage[brazilian]{cleveref} % Must be after hyperref
 
@@ -179,8 +180,8 @@
 
     \begin{enumerate}
         \setcounter{enumi}{5}
-        \item Execute o comando \code{nikto -host http://10.1.2.6/Wacko -o
-            nikto.html -format htm}.
+        \item \textbf{Execute o comando \code{nikto -host http://10.1.2.6/Wacko
+            -o nikto.html -format htm}.}
 
             \begin{enumerate}
                 \item \textbf{Copie e cole screenshots de telas obtidas na
@@ -209,9 +210,40 @@
 
     \begin{enumerate}
         \setcounter{enumi}{6}
-        \item Explique as vulnerabilidades A1, A2, A3 e A7 do documento TOP
-            TEN 2017:
-            \url{https://www.owasp.org/images/7/72/OWASP_Top_10-2017_%28en%29.pdf.pdf};
+        \item \textbf{Explique as vulnerabilidades A1, A2, A3 e A7 do documento
+            TOP TEN 2017:}
+                \url{https://www.owasp.org/images/7/72/OWASP_Top_10-2017_%28en%29.pdf.pdf};
+
+            \begin{description}
+                \item[A1 --- Injection:] Trata-se de aproveitar a
+                    não-sanitização de entradas para executar/registrar
+                    comandos/código maliciosos em algum serviço quando ele faz
+                    alguma espécie de Query.
+                \item[A2 --- Broken Auth:] Trata-se de passar por cima de
+                    políticas de autenticação de alguma aplicação, seja por
+                    partir de uma lista de senhas comuns e testá-las para
+                    alguns usuários, ou seja por se aproveitar de mal
+                    gerenciamento de seções e seus respectivos timeouts.
+                \item [A3 --- Sensitive Data Exposure:] Quando o atacante
+                    adquire, de alguma forma, acesso a uma informação sensível,
+                    ainda que esta tenha sido criptografada. Por exemplo, pode
+                    ocorrer de o número de cartão de crédito estar
+                    criptografado, porém no \textit{server-side} ele é
+                    descriptografado, então o atacante aproveita alguma técnica
+                    de ataque da categoria A1 e tem acesso ao valor
+                    descriptografado.
+                \item [A7 --- Cross-Site Scripting (XSS):] O atacante aproveita
+                    alguma falta de checagem ou de sanitização para parâmetros
+                    de requests de forma que ele possa executar seus próprios
+                    scripts e acessar informações indevidas. Por exemplo, um
+                    input de um formulário contém um campo cujo valor é dado
+                    por algum parâmetro do request. O atacante, então, usa como
+                    parâmetro um elemento \code{<script>} e que salva cookies
+                    do usuário no site do atacante, tendo então informações
+                    sobre a sessão do usuário. Isso abre brechas, inclusive,
+                    para \textit{Cross Site Request Forgery}.
+            \end{description}
+
         \item Faça:
             \begin{enumerate}
                 \item \textbf{Acesse a aplicação Mutillidae: abra o browser da
@@ -322,8 +354,8 @@
 
         1ª Vulnerabilidade: HTML Injection. Como não há sanitização no
         formulário de cadastro, é possível cadastrar um usuário com nome
-        ``\mintinline{text}{José <iframe
-        src="forum.cagr.ufsc.br/listarMembros.jsf?busca=sim"> Freitas}'',
+        ``\code{José <iframe
+        src="forum.cagr.ufsc.br/listarMembros.jsf?busca=sim"></iframe> Freitas}'',
         ou ainda um usuário com o corpo completo do HTML da página do
         \code{iframe} como nome.
         Isso permite que se crie, por exemplo, um usuário com nome que seja
@@ -344,9 +376,10 @@
     \begin{enumerate}
         \setcounter{enumi}{11}
         \item \textbf{Leia a reportagem com título ``Find webcams, databases,
-            boats in the sea using Shodan'' disponível em
-            \url{https://www.securitynewspaper.com/2018/11/27/find-webcams-databases-boats-in-the-sea-using-shodan/}.
-            Responda:}
+                boats in the sea using Shodan'' disponível em}
+                \url{https://www.securitynewspaper.com/2018/11/27/find-webcams-databases-boats-in-the-sea-using-shodan/}
+                \textbf{.
+                Responda:}
 
             \begin{enumerate}
                 \item \textbf{O que é o Shodan e o que é possível fazer com esse site?}
@@ -372,14 +405,14 @@
             câmera Mobotix. Responda:}
 
             \begin{enumerate}
-                \item O que é possível visualizar?
+                \item \textbf{O que é possível visualizar?}
 
                     Uma câmera de monitoramento publicamente disponível (mais
                     uma vez, seja intencionalmente ou por uma falha de
                     configuração), convenientemente nomeada de ``Apple
-                    Outdoor''. 
+                    Outdoor''.
 
-                \item Um atacante poderia fazer o que com este acesso?
+                \item \textbf{Um atacante poderia fazer o que com este acesso?}
 
                     Desviar a câmera para um ponto em que não se tenha visão de
                     alguma ação ilegal (e.g. um furto de veículo).
@@ -429,40 +462,39 @@
     indicados nas variáveis indicadas acima. Neste ataque uma das combinações
     utilizadas poderá ser aceita pelo servidor.
 
-    \begin{superframe}
-        \begin{enumerate}
-            \setcounter{enumi}{13}
-            \item Copie e cole a screenshot da sua tela ao realizar o
-                experimento anterior. Depois, explique o experimento:
+    \begin{enumerate}
+        \setcounter{enumi}{13}
+        \item \textbf{Copie e cole a screenshot da sua tela ao realizar o
+            experimento anterior. Depois, explique o experimento:}
 
-                \todo{Feed me images >:)}
+            \img{imgs/options}
+            \img{imgs/login_exploit}
 
-                \begin{enumerate}
-                    \item O que é o ataque do dicionário?
+            \begin{enumerate}
+                \item \textbf{O que é o ataque do dicionário?}
 
-                        É um ataque que consiste em testar combinações padrões
-                        conhecidas de usuário/senha.
+                    É um ataque que consiste em testar combinações padrões
+                    conhecidas de usuário/senha.
 
-                    \item O que foi encontrado?
+                \item \textbf{O que foi encontrado?}
 
-                        A combinação de usuário/senha admin padrão.
+                    A combinação de usuário/senha admin padrão.
 
-                    \item Qual foi a vulnerabilidade usada para obter esse
-                        resultado?
+                \item \textbf{Qual foi a vulnerabilidade usada para obter
+                    esse resultado?}
 
-                        Uso de configurações padrões para autenticação.
+                    Uso de configurações padrões para autenticação.
 
-                    \item Como pode ser explorado esse resultado?
+                \item \textbf{Como pode ser explorado esse resultado?}
 
-                        Como Tomcat é um servidor para tecnologias relacionadas
-                        a JavaEE, o atacante pode fazer qualquer ação enquanto
-                        admin que interfira nos serviços Java disponíveis
-                        (desde \textit{Denial of Service} até roubo de
-                        informações ou mesmo bloqueio de acesso à informação
-                        com liberação mediante alguma recompensa).
-                \end{enumerate}
-        \end{enumerate}
-    \end{superframe}
+                    Como Tomcat é um servidor para tecnologias relacionadas
+                    a JavaEE, o atacante pode fazer qualquer ação enquanto
+                    admin que interfira nos serviços Java disponíveis
+                    (desde \textit{Denial of Service} até roubo de
+                    informações ou mesmo bloqueio de acesso à informação
+                    com liberação mediante alguma recompensa).
+            \end{enumerate}
+    \end{enumerate}
 
     O \code{tomcat\_mgr\_deploy} pode usar diferentes payloads. O payload
     identifica o código que o módulo deve executar e que deve ser entregue ao
@@ -493,26 +525,89 @@
     alvo. Digite help no prompt do meterpreter para listar os comandos
     possíveis que poderão ser executados.
 
-    \begin{superframe}
+    \begin{enumerate}
+        \setcounter{enumi}{14}
+        \item \textbf{Copie e cole a screenshot da sua tela de
+                estabelecimento de sessão (inclua na imagem a parte dos
+                IPs, data e hora dos experimentos). Agora, explique os
+                experimentos respondendo perguntas:}
+
+            \img{imgs/payloads}
+
         \begin{enumerate}
-            \setcounter{enumi}{14}
-            \item Copie e cole a screenshot da sua tela de estabelecimento de
-                sessão (inclua na imagem a parte dos IPs, data e hora dos
-                experimentos). Agora, explique os experimentos respondendo
-                perguntas:
+            \item \textbf{Qual a vulnerabilidade que está sendo explorada?}
 
-                \todo{Feed me moooooore!}
+                TCP Reverso.
 
-            \begin{enumerate}
-                \item Qual a vulnerabilidade que está sendo explorada?
-                \item O que faz o exploit para explorar a vulnerabilidade?
-                \item O que é o meterpreter?
-                \item O que é possível fazer depois que o exploit é executado?
-                    Use pelo menos dois comandos do meterpeter listados com o
-                    comando help e explique cada um deles, colocando a imagem
-                    da execução dos seus comandos. Alguns comandos para
-                    máquinas Windows não funcionarão na máquina Linux.
-            \end{enumerate}
+            \item \textbf{O que faz o exploit para explorar a
+                vulnerabilidade?}
+
+                O exploit abre uma porta na máquina local (ou seja, a atacante)
+                e faz com que o servidor remoto (ou seja, a máquina alvo) se
+                conecte a ela. Isso pode ser utilizado para que o servidor
+                mande comandos para a máquina local sem que o firewall ou outro
+                mecanismo semelhante interfira. Nesse caso específico, o
+                exploit abre um shell na máquina remota que permite trocas de
+                informações com a local.
+
+            \item \textbf{O que é o meterpreter?}
+
+                Um interpretador na forma de um shell interativo com diversos
+                comandos prontos para exploit (por exemplo, scripts para
+                iniciar/finalizar keylogging).
+
+            \item \textbf{O que é possível fazer depois que o exploit é
+                    executado? Use pelo menos dois comandos do meterpeter
+                    listados com o comando help e explique cada um deles,
+                    colocando a imagem da execução dos seus comandos. Alguns
+                    comandos para máquinas Windows não funcionarão na máquina
+                Linux.}
+
+                Uma possibilidade é aproveitar comandos como o \code{upload}
+                para sobrescrever arquivos do servidor. Por exemplo, partindo
+                de um arquivo \code{haha.html} que simbolize uma página
+                maliciosa:
+
+                \img{imgs/cat_haha.png}
+
+                Estando no servidor, foi possível ver que a pasta
+                \code{/var/www/} contém arquivos diretos do site hosteado pela
+                máquina alvo, tendo um arquivo \code{index.html} como página
+                inicial. Sendo assim, bastou utilizar o comando \code{upload}
+                para substituir o conteúdo do \code{index.html} pela página
+                maliciosa:
+
+                \img{imgs/upload.png}
+
+                E, com isso, ao se acessar o servidor da máquina alvo pelo
+                navegador\ldots:
+
+                \img{imgs/hacked.png}
+
+                A segunda possibilidade seria iniciar um keylogger, porém por
+                algum motivo a versão do meterpreter instalada na ISO não
+                conseguia executar os scripts Ruby pré-prontos do Metasploit, e
+                portanto não foi possível mostrar o uso, porém a sequência de
+                comandos supostamente seria:
+
+                \begin{minted}{text}
+                    > ps
+                    ... lista de processos e seus PIDs ...
+                    > # Localiza-se o PID de algum processo de interesse no
+                    > # servidor (e.g. Explorer.exe) e então migra-se para ele:
+                    > migrate o-pid-de-interesse
+                    [*] Migrating to o-pid-de-interesse...
+                    [*] Migration completed successfully.
+                    > # Inicia-se o keylogger:
+                    > keyscan_start
+                    Starting the keystroke sniffer...
+                    > # Espera por teclas serem pressionadas, e quando estiver
+                    > # satisfeito, são salvas as teclas lidas:
+                    > keyscan_dump
+                    Dumping captured keystrokes...
+                       tgoogle.cm my credit amex   myusernamthi     amexpasswordpassword
+                    > # Fim
+                \end{minted}
         \end{enumerate}
-    \end{superframe}
+    \end{enumerate}
 \end{document}
