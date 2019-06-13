@@ -9,8 +9,10 @@
 
 % General
 \usepackage{amsmath}
+\usepackage{booktabs}
 \usepackage{environ}
 \usepackage[margin=1in]{geometry}
+\usepackage{minted}
 \usepackage{xcolor}
 
 % Other
@@ -67,9 +69,35 @@
 
     \section{Números Aleatórios}
 
+    Algoritmo escolhido: Xorshift com $(a, b, c) = (13, 7, 17)$.
+
+    \begin{table}[ht]
+        \centering
+        \begin{tabular}{c l}
+            \toprule
+            Nº de bits & Tempo (ms) \\
+            \midrule
+            32 & 0.0045 \\
+            64 & 0.0050 \\
+            128 & 0.0056 \\
+            256 & 0.0053 \\
+            512 & 0.0064 \\
+            1024 & 0.0054 \\
+            2048 & 0.0050 \\
+            4096 & 0.0052 \\
+            \bottomrule
+        \end{tabular}
+        \caption{%
+            Temporização para o algoritmo de Xorshift. O tempo foi calculado
+            utilizando uma média aritmética de 1000 execuções.
+        }
+    \end{table}
+
     \section{Números Primos}
 
     \section{Código}
+
+    \inputminted[lastline=91]{python}{../rng.py}
 
     \bibliography{}
 \end{document}

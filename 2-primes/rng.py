@@ -8,6 +8,13 @@ from typing import Callable
 
 @dataclass
 class RNG:
+    '''Generates new random numbers from range [0, limit) through iteration.
+
+    function: The step function (which shall give the next random number from a
+              given seed).
+    seed: Initial seed.
+    limit: The upper limit of generated numbers range.
+    '''
     function: Callable[[int], int]
     seed: int = 88172645463325252
     limit: int = 2 ** 32
@@ -29,13 +36,33 @@ def xorshift(
         b: int = 7,
         c: int = 17
 ) -> int:
-    seed ^= seed << a
-    seed ^= seed >> b
-    seed ^= seed << c
-    return seed
+    '''Gives next random number from given seed using Xorshift algorithm. (a,
+    b, c) are Xorshift's specific parameters.'''
+
+    parts, i, n = [], 0, seed
+
+    # Works in blocks of 32 bits
+    while n != 0:
+        _n = n & 0xffffffff
+
+        _n ^= _n << a
+        _n ^= _n >> b
+        _n ^= _n << c
+        _n = _n & 0xffffffff
+
+        parts.append(_n)
+        i += 1
+        n >>= 32
+
+    n = 0
+    for i, part in enumerate(parts):
+        n |= part << (32 * i)
+
+    return n
 
 
 class BitLength(Enum):
+    '''How many bits the generated numbers should have.'''
     RNG32 = 32
     RNG64 = 64
     RNG128 = 128
@@ -57,6 +84,7 @@ _XORSHIFT_PARAMS = {
 
 
 def xorshift_init(bits: BitLength = BitLength.RNG64, seed=RNG.seed):
+    '''Initializes RNG with xorshift using preset parameters.'''
     a, b, c = _XORSHIFT_PARAMS[bits]
     bits = bits.value
     return RNG(function=partial(xorshift, a=a, b=b, c=c), limit=2**bits - 1)
@@ -69,7 +97,7 @@ def lfg_init(bits: BitLength):
     return RNG(function=lfg, limit=2**bits.value - 1)
 
 
-def lfg(seed: int = RNG.seed, operator=operator.mul, j: int = 65, k: int 71):
-    # TODO: Implement using a list of integers (len = k) -- see Tosetto's
-    # implementation --...or with some good bizarre `for` loop.
+def lfg(seed: int = RNG.seed, operator=mul, j: int = 65, k: int = 71):
+    # TODO: Implement using a list of integers (len = k)... or with some good
+    # bizarre `for` loop.
     pass
